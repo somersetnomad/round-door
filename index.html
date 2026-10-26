@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="A family read-aloud unit study for The Hobbit: twelve illustrated, interactive subjects.">
+<meta name="description" content="A family read-aloud unit study for The Hobbit: a labyrinth of twelve illustrated rooms, three secret chambers and five lore keys to find.">
 <meta name="theme-color" content="#e9dfc6">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Round Door Hobbit Study</title>
@@ -364,6 +364,83 @@ input[type=range]{width:100%;accent-color:var(--honey);padding:0;border:none;bac
 .game{border:1.5px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
 .game ol{margin:0;padding-left:1.3em;font-size:.97rem;display:flex;flex-direction:column;gap:4px}
 
+
+.pbar{display:flex;align-items:center;gap:14px;padding:6px 4px 10px;overflow-x:auto;scrollbar-width:thin}
+.mapbtn{flex:0 0 auto;display:flex;align-items:center;gap:7px;border:1px solid var(--rust);background:var(--rust);color:var(--board);border-radius:3px;padding:7px 12px;font-family:var(--font-label);letter-spacing:.05em;font-size:.88rem}
+.mapbtn svg{width:18px;height:18px}
+.mapbtn:hover{filter:brightness(1.1)}
+.here{flex:0 0 auto;font-family:var(--font-display);font-size:1.18rem;white-space:nowrap}
+.here .num{margin-right:6px}
+.doors{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.dl{font-family:var(--font-label);font-size:.78rem;letter-spacing:.08em;color:var(--ink-soft);margin-right:2px}
+.door{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--board);border-radius:14px 14px 3px 3px;padding:5px 11px;font-family:var(--font-label);font-size:.84rem;letter-spacing:.04em;white-space:nowrap;transition:border-color .2s,transform .2s}
+.door svg{width:14px;height:14px;color:var(--moss)}
+.door:hover{border-color:var(--moss);transform:translateY(-2px)}
+.door.secret{border-style:dashed;border-color:color-mix(in srgb,var(--rust) 60%,transparent)}
+.door.sealed{font-style:italic;color:var(--ink-soft)}
+.door.sealed svg{color:var(--rust)}
+.maze-wrap{border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);line-height:0;overflow:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:700px){.maze{min-width:760px}.maze-wrap{max-height:70vh}}
+.maze{display:block;width:100%;height:auto}
+.maze .room{cursor:pointer}
+.maze .room:hover>circle:nth-of-type(2),.maze .room:focus>circle:nth-of-type(2){filter:brightness(1.12)}
+.maze .room:focus{outline:none}
+.maze .room:focus text{fill:var(--rust)}
+#passage{position:fixed;inset:0;z-index:70;pointer-events:none;background:radial-gradient(circle at 50% 50%,#4a2e14 0%,#1c1108 45%,#070402 100%);clip-path:circle(0% at var(--px,50%) var(--py,50%));transition:clip-path .55s cubic-bezier(.65,0,.35,1);display:flex;align-items:center;justify-content:center;overflow:hidden}
+#passage.on{clip-path:circle(150% at var(--px,50%) var(--py,50%))}
+#passage .rings i{position:absolute;left:50%;top:50%;width:44vmin;height:56vmin;margin:-28vmin 0 0 -22vmin;border:4px solid rgba(226,176,79,.45);border-bottom:none;border-radius:50% 50% 0 0/60% 60% 0 0;animation:tunnel 1s linear infinite;opacity:0}
+@keyframes tunnel{0%{transform:scale(.15);opacity:0}35%{opacity:.85}100%{transform:scale(3.4);opacity:0}}
+#passText{position:relative;font-family:var(--font-display);font-style:italic;color:#f6dfaa;font-size:clamp(1.3rem,3.4vw,2rem);text-shadow:0 0 22px rgba(255,190,90,.7);padding:0 20px;text-align:center}
+#toast{position:fixed;left:50%;top:18px;z-index:75;transform:translate(-50%,-140%);display:flex;align-items:center;gap:12px;background:var(--board) var(--grain);border:1px solid var(--line);box-shadow:inset 0 0 0 4px var(--board),inset 0 0 0 5px color-mix(in srgb,var(--line) 70%,transparent),0 18px 40px -18px rgba(40,28,10,.8);padding:12px 18px;border-radius:3px;transition:transform .6s cubic-bezier(.2,.8,.2,1.2);max-width:calc(100% - 32px);pointer-events:none}
+#toast.show{transform:translate(-50%,0)}
+#toast svg{width:44px;height:36px;flex:0 0 auto}
+#toast b{display:block;font-family:var(--font-display);font-weight:400;font-size:1.2rem}
+.modal{position:fixed;inset:0;z-index:65;display:flex;align-items:center;justify-content:center;padding:12px}
+.modal-bg{position:absolute;inset:0;background:rgba(20,12,4,.62);backdrop-filter:blur(3px)}
+.modal-card{position:relative;width:min(640px,100%);max-height:92vh;overflow:auto;padding:22px 22px 18px;animation:plateIn .5s cubic-bezier(.2,.7,.2,1) both;display:flex;flex-direction:column;gap:10px}
+.modal.wide .modal-card{width:min(1000px,100%)}
+.mclose{position:absolute;right:10px;top:6px;border:none;background:none;font-size:2rem;line-height:1;color:var(--ink-soft);padding:4px 10px;z-index:2}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:8px}
+.slot{display:flex;gap:10px;align-items:center;border:1px dashed var(--line);border-radius:4px;padding:8px 10px}
+.slot.on{border-style:solid;background:color-mix(in srgb,var(--honey) 9%,transparent)}
+.slot svg{width:46px;height:34px;flex:0 0 auto}
+.slot b{display:block;font-family:var(--font-display);font-weight:400;font-size:1.05rem;line-height:1.2}
+.slot span{font-size:.88rem;color:var(--ink-soft);line-height:1.3;display:block}
+.satchel{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--board) var(--grain);color:var(--ink);border-radius:999px;padding:8px 14px 8px 10px;font-family:var(--font-label);font-size:.85rem;letter-spacing:.05em;box-shadow:0 10px 26px -14px rgba(40,28,10,.7);transition:transform .2s}
+.satchel:hover{transform:translateY(-2px)}
+.satchel svg{width:22px;height:22px}
+.satchel b{font-variant-numeric:tabular-nums;color:var(--rust);font-weight:600}
+@media (max-width:620px){.satchel span,.mapbtn span{display:none}.satchel{padding:9px 12px}}
+.glint{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:none;background:none;padding:0;cursor:pointer;z-index:2}
+.glint::before{content:"";position:absolute;inset:9px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z' fill='%23fff6d0'/></svg>") center/contain no-repeat;filter:drop-shadow(0 0 5px #ffd36e) drop-shadow(0 0 2px #fff);animation:glintA 3.4s ease-in-out infinite}
+@keyframes glintA{0%,62%,100%{transform:scale(.18) rotate(0);opacity:.2}76%{transform:scale(1) rotate(45deg);opacity:1}88%{transform:scale(.45) rotate(90deg);opacity:.65}}
+.banner .art{position:relative}
+.inner{display:flex;flex-direction:column;gap:28px}
+.inner[hidden]{display:none!important}
+.carve{font-family:var(--font-display);font-style:italic;font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.35;border-left:3px solid var(--honey);padding-left:14px}
+.runes-big{font-family:var(--font-rune);font-style:normal;font-size:clamp(2rem,7vw,3.2rem);letter-spacing:.18em;color:var(--rust)}
+.candles{display:flex;gap:10px;justify-content:center;padding:6px 0;flex-wrap:wrap}
+.candles svg{width:34px;height:78px}
+.vriddles{display:flex;flex-direction:column;gap:14px}
+.vr{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.cabinet{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.shelf{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border:1px dashed var(--line);border-radius:4px;padding:10px 6px;background:linear-gradient(to bottom,transparent 72%,color-mix(in srgb,var(--rust) 18%,transparent) 72% 76%,transparent 76%)}
+.shelf.on{border-style:solid}
+.shelf svg{width:48px;height:48px}
+.shelf small{font-size:.8rem;color:var(--ink-soft);line-height:1.25}
+.ciphers{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px}
+.ciph{border:1px solid var(--line);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.ciph.done{background:color-mix(in srgb,var(--good) 10%,transparent)}
+.crunes{font-family:var(--font-rune);font-size:1.7rem;letter-spacing:.14em;color:var(--rust)}
+.skywrap{border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);line-height:0;overflow:hidden}
+#sky{width:100%;height:auto;display:block;touch-action:manipulation}
+#sky .star{cursor:pointer}
+#sky .star.next circle:nth-child(2){animation:twinkle 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+#sky .star.nope{animation:shake .35s}
+#charter svg{width:48px;height:24px}
+.cert{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:26px 16px;border:2px double var(--honey);background:var(--board) var(--grain)}
+.cert h2{color:var(--rust)}
+.cert input{text-align:center;font-family:var(--font-display);font-size:1.6rem;border:none;border-bottom:1px solid var(--ink-soft);background:transparent;border-radius:0;width:min(100%,360px)}
 footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
 
 @media (max-width:760px){
@@ -384,6 +461,10 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
 }
 </style>
 
+<div id="passage" aria-hidden="true"><div class="rings"><i style="animation-delay:0s"></i><i style="animation-delay:.25s"></i><i style="animation-delay:.5s"></i><i style="animation-delay:.75s"></i></div><p id="passText"></p></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-label="Labyrinth"><div class="modal-bg" data-close></div><div class="modal-card plate"><button class="mclose" data-close aria-label="Close">&times;</button><div id="modalBody"></div></div></div>
+<button class="satchel" id="satchel" aria-label="Open your satchel of keys and curios"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16l-1.5 11h-13z" fill="#a8743f" stroke="#5e3d1f" stroke-width="1.3"/><path d="M8 9V7a4 4 0 0 1 8 0v2" fill="none" stroke="#5e3d1f" stroke-width="1.5"/><rect x="10" y="12" width="4" height="3" rx="1" fill="#f2c14e"/></svg><span>Satchel</span><b id="satchelCount">0/17</b></button>
 <div class="wrap">
 
   <header class="hero">
@@ -397,7 +478,7 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
     <figure class="plate hero-art"><div class="art"><svg id="heroSvg" viewBox="0 0 600 440" role="img" aria-label="Painted scene of a hillside home at golden hour: a round green door with a brass knob set in a ring of stones, glowing round windows, a smoking chimney, an old tree, lanterns and a flower garden"></svg></div><figcaption>Plate I &middot; The round door, at golden hour</figcaption></figure>
   </header>
 
-  <nav class="tabs-shell" aria-label="Study sections"><div class="tabs" role="tablist" id="tabs"></div></nav>
+  <nav class="tabs-shell" aria-label="Where you are in the labyrinth"><div class="pbar"><button class="mapbtn" id="mapBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 4v14M15 6v14" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/></svg><span>Labyrinth map</span></button><div class="here" id="here"></div><div class="doors" id="doors"></div></div></nav>
 
   <main id="panels">
 
@@ -417,7 +498,8 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
         <div class="bar"><i id="progressBar" style="width:0%"></i></div>
         <div class="pips" id="pips"></div>
       </div>
-      <div class="panel-head"><span class="label">Twelve ways into the story</span><h2>Choose a subject</h2></div>
+      <div class="board"><div class="row between"><span class="label">The labyrinth under the hill</span><span class="score" id="mazeStats"></span></div><h3>Choose a passage</h3><p class="note">Every subject is a room under the hill. Tap a room and the lantern will lead you there. Three sealed doors hide secret rooms: find the lore keys to open them, and look closely at every picture, because something glints in each one.</p><div class="maze-wrap"><svg class="maze" id="mazeH" viewBox="0 0 900 690" role="group" aria-label="Map of the labyrinth of rooms"></svg></div></div>
+      <div class="panel-head"><span class="label">Or take the front passages</span><h2>The twelve rooms</h2></div>
       <div class="sections" id="secCards"></div>
     </section>
 
@@ -733,6 +815,37 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
       <div class="board">
         <span class="label">Games from the story</span>
         <div class="games" id="games"></div>
+      </div>
+    </section>
+
+    <!-- SECRET: VAULT -->
+    <section class="panel" id="p-vault" role="tabpanel" hidden>
+      <div class="banner" data-scene="vault"></div>
+      <div class="panel-head"><span class="label">Secret room · beyond the Lake Cave</span><h2>The Riddle Vault</h2><p>Deep under the hill, behind a door that answers only to the right word.</p></div>
+      <div class="board" id="vaultLock"><span class="label">The sealed door</span><h3>Words are carved around the rim of a round stone door</h3><p class="carve">"The more of me you take, the more of me you leave behind. What am I?"</p><div class="row"><input id="vaultIn" placeholder="Speak the answer…" aria-label="Your answer to the door"><button class="btn solid" id="vaultBtn">Speak</button></div><p class="feedback" id="vaultFb" aria-live="polite"></p></div>
+      <div id="vaultInner" class="inner">
+        <div class="board"><div class="row between"><span class="label">Riddles of the deep</span><span class="score" id="vaultScore"></span></div><h3>Light every candle</h3><p class="note">Type an answer and press Answer. Each riddle you solve lights a candle on the shelf.</p><div class="candles" id="candles"></div><div class="vriddles" id="vriddles"></div></div>
+        <div class="board"><span class="label">For the next explorer</span><h3>Carve a riddle of your own</h3><textarea id="myRiddle" placeholder="Write your riddle and its answer. It saves as you type."></textarea><span class="saved" id="myRiddleSaved"></span></div>
+      </div>
+    </section>
+    <!-- SECRET: TREASURY -->
+    <section class="panel" id="p-treasury" role="tabpanel" hidden>
+      <div class="banner" data-scene="math" data-cap="treasury"></div>
+      <div class="panel-head"><span class="label">Secret room · beyond the Counting House</span><h2>The Hidden Treasury</h2><p>Where the curios you find are kept, and where messages are locked in runes.</p></div>
+      <div class="board" id="treasLock"><span class="label">The rune lock</span><h3>A heavy lock, carved with five runes</h3><p class="carve runes-big" id="treasRunes"></p><p class="note">Use the rune key below to read the word, then speak it.</p><div class="row"><input id="treasIn" placeholder="The word is…" aria-label="The word on the lock"><button class="btn solid" id="treasBtn">Turn the lock</button></div><p class="feedback" id="treasFb" aria-live="polite"></p><div class="rune-key" id="treasKey"></div></div>
+      <div id="treasInner" class="inner">
+        <div class="board"><span class="label">Cabinet of curiosities</span><h3>Everything you have found under the hill</h3><div class="cabinet" id="cabinet"></div></div>
+        <div class="board"><span class="label">Rune ciphers</span><h3>Messages locked in runes</h3><p class="note">Decode each word. The rune key is on the lock above and in the Painted Room.</p><div class="ciphers" id="ciphers"></div></div>
+      </div>
+    </section>
+    <!-- SECRET: MOON -->
+    <section class="panel" id="p-moon" role="tabpanel" hidden>
+      <div class="banner" data-scene="moonroom" data-cap="moon"></div>
+      <div class="panel-head"><span class="label">Secret room · beyond the Painted Room</span><h2>The Moon Chamber</h2><p>A round room with a round window, where the stars are close enough to touch.</p></div>
+      <div class="board" id="moonLock"><span class="label">The silver door</span><h3>There is no keyhole here</h3><p>A thin silver line runs all the way round this door. Only the Moon Key will open it, and the Moon Key can only be found by reading what moonlight shows.</p><div class="row"><button class="btn solid" data-go="art">Go to the Painted Room</button></div></div>
+      <div id="moonInner" class="inner">
+        <div class="board"><div class="row between"><span class="label">Star-tracing</span><span class="score" id="skyScore"></span></div><h3>Join the stars to wake three constellations</h3><p class="note">Pulsing stars are the next ones to touch. Follow the light from star to star.</p><div class="skywrap"><svg id="sky" viewBox="0 0 800 420" role="group" aria-label="Night sky with stars to connect"></svg></div><button class="btn small" id="skyReset" style="align-self:flex-start">Clear the sky</button></div>
+        <div class="board"><span class="label">The keeper's charter</span><div id="charter"></div></div>
       </div>
     </section>
   </main>
@@ -1222,6 +1335,21 @@ notebook(p){ // writing desk
   s+=`<g transform="translate(720 70)"><ellipse cx="14" cy="104" rx="30" ry="6" fill="#000" opacity=".4"/><ellipse cx="14" cy="100" rx="24" ry="6" fill="#b88a3a"/><rect x="4" y="30" width="20" height="70" rx="3" fill="#f2e6c8"/><path d="M4 34 q6 10 2 24" stroke="#e8d8b0" stroke-width="3" fill="none"/><line x1="14" y1="30" x2="14" y2="24" stroke="#2a1608" stroke-width="1.5"/><path class="flame" d="M14 24 c-6 -8 -2 -18 0 -22 c4 6 8 14 0 22z" fill="#ffd36e"/><path class="flame f2" d="M14 22 c-2 -4 -1 -8 0 -10 c2 3 3 7 0 10z" fill="#fffbe0"/></g>`;
   s+=motes(10,8,600,780,20,140,'#ffd27a',1);
   return s},
+vault(p){const r=rng(101);let s=`<defs>${lin(p+'w',[[0,'#1a1410'],[.6,'#2e241a'],[1,'#1a1410']])}${lin(p+'st',[[0,'#6a5e4e'],[1,'#3a3228']])}${rad(p+'gl',[[0,'#ffc46a',.75],[1,'#ffc46a',0]])}${rad(p+'door',[[0,'#7d8c82'],[.7,'#4a5650'],[1,'#262e2a']],.4,.35,.7)}${rad(p+'rune',[[0,'#d4ffe8',.95],[1,'#7fc8a4',0]])}<path id="${p}ring" d="M400 140 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs><rect width="800" height="240" fill="url(#${p}w)"/>`;
+  for(let row=0;row<12;row++)for(let c=0;c<20;c++){const x=c*44+(row%2?22:0)-10,y=row*22;s+=`<rect x="${x}" y="${y}" width="${f1(40+r()*4)}" height="19" rx="3" fill="url(#${p}st)" opacity="${f1(.3+r()*.35)}"/>`}
+  [130,670].forEach(x=>{s+=`<path d="M${x-72} 240 L${x-72} 118 Q${x} 26 ${x+72} 118 L${x+72} 240Z" fill="#0b0805"/><path d="M${x-72} 240 L${x-72} 118 Q${x} 26 ${x+72} 118 L${x+72} 240" fill="none" stroke="#8a7a62" stroke-width="11" stroke-dasharray="16 3"/><path d="M${x-40} 240 L${x-30} 170 L${x+30} 170 L${x+40} 240Z" fill="#160f08"/>`});
+  s+=`<circle cx="400" cy="140" r="100" fill="#000" opacity=".5"/><circle cx="400" cy="140" r="86" fill="url(#${p}door)" stroke="#1a1612" stroke-width="5"/><circle cx="400" cy="140" r="62" fill="none" stroke="#2a3430" stroke-width="2"/><text font-family="Noto Sans Runic, serif" font-size="15" fill="#c8f5dc" class="glow"><textPath href="#${p}ring">ᚱᛁᛞᛚ · ᚦᛖ · ᛞᚩᚩᚱ · ᚩᛈᛖᚾᛋ · ᛏᚩ · ᚹᛁᛋᛞᚩᛗ · ᚱᛁᛞᛚ ·</textPath></text>`;
+  s+=`<circle cx="400" cy="140" r="40" fill="url(#${p}rune)" class="glow"/><circle cx="400" cy="131" r="8" fill="#0a1812"/><path d="M396 135 L392 160 L408 160 L404 135Z" fill="#0a1812"/>`;
+  [[250,152],[288,166],[520,160],[558,146],[52,206],[748,200]].forEach(([x,y],i)=>{s+=`<rect x="${x-14}" y="${y+22}" width="28" height="5" rx="2" fill="#4a3c2c"/><circle cx="${x}" cy="${y-6}" r="30" fill="url(#${p}gl)" class="glow" style="animation-delay:${-i*.4}s"/><rect x="${x-4}" y="${y}" width="8" height="22" rx="2" fill="#efe2c4"/><path class="flame${i%2?' f2':''}" d="M${x} ${y} c-4 -6 -1 -12 0 -14 c3 4 5 9 0 14z" fill="#ffc04a"/>`});
+  s+=`<rect x="0" y="216" width="800" height="24" fill="#120d08"/><path d="M0 0 L60 0 M0 0 L0 50 M0 0 L46 34 M0 18 Q14 16 18 0 M0 34 Q30 30 34 0" stroke="#d8d0c0" stroke-width=".7" opacity=".35" fill="none"/>`+motes(18,4,200,600,40,220,'#ffd27a',1.2);return s},
+moonroom(p){const r=rng(202);let s=`<defs>${lin(p+'sky',[[0,'#05081c'],[1,'#2a3470']])}${rad(p+'mg',[[0,'#eef3ff',.8],[1,'#eef3ff',0]])}${lin(p+'wall',[[0,'#1c2038'],[1,'#0c0e1c']])}${lin(p+'beam',[[0,'#cfe0ff',.28],[1,'#cfe0ff',0]])}<clipPath id="${p}win"><circle cx="420" cy="112" r="96"/></clipPath>${blur(p+'b6',6)}</defs><rect width="800" height="240" fill="url(#${p}wall)"/>`;
+  for(let i=0;i<40;i++)s+=`<rect x="${f1(r()*800)}" y="${f1(r()*220)}" width="${f1(30+r()*30)}" height="16" rx="3" fill="#2a3050" opacity="${f1(.15+r()*.2)}"/>`;
+  s+=`<path d="M340 190 L500 190 L620 240 L220 240Z" fill="url(#${p}beam)" filter="url(#${p}b6)"/>`;
+  s+=`<g clip-path="url(#${p}win)"><rect x="320" y="10" width="200" height="210" fill="url(#${p}sky)"/>${stars(70,31,800,240)}<circle cx="452" cy="74" r="60" fill="url(#${p}mg)"/><circle cx="452" cy="74" r="22" fill="#fbf6e6"/><circle cx="446" cy="68" r="4" fill="#e6dcc4"/><circle cx="458" cy="80" r="3" fill="#e6dcc4"/><path d="M360 150 L384 128 L404 142 L398 168" stroke="#cfe0ff" stroke-width="1" opacity=".6" fill="none"/>${[[360,150],[384,128],[404,142],[398,168]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2" fill="#fff"/>`).join('')}</g>`;
+  s+=`<circle cx="420" cy="112" r="96" fill="none" stroke="#6a6e86" stroke-width="16" stroke-dasharray="20 4"/><circle cx="420" cy="112" r="104" fill="none" stroke="#000" stroke-width="2" opacity=".5"/><g stroke="#3a3e56" stroke-width="3"><line x1="420" y1="16" x2="420" y2="208"/><line x1="324" y1="112" x2="516" y2="112"/></g>`;
+  s+=`<g transform="translate(640 120)"><path d="M0 0 L-24 100 M0 0 L22 100 M0 0 L0 104" stroke="#8a7a62" stroke-width="3"/><g transform="rotate(-35)"><rect x="-50" y="-9" width="100" height="18" rx="6" fill="#b08a4a"/><rect x="-58" y="-11" width="14" height="22" rx="3" fill="#8a6a30"/><rect x="38" y="-7" width="10" height="14" rx="2" fill="#d9b86a"/></g></g>`;
+  s+=`<g transform="translate(70 40)"><rect width="140" height="100" fill="#d9c9a4" opacity=".85"/><rect width="140" height="100" fill="none" stroke="#6a5843" stroke-width="2"/>${[[20,30],[50,20],[70,50],[100,30],[120,70],[40,80]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3" fill="#2a3470"/>`).join('')}<path d="M20 30 L50 20 L70 50 L100 30 M70 50 L40 80 M70 50 L120 70" stroke="#2a3470" stroke-width="1" fill="none"/></g>`;
+  s+=`<ellipse cx="420" cy="230" rx="160" ry="14" fill="#cfe0ff" opacity=".18"/>`+motes(16,7,320,520,30,220,'#e8f0ff',1);return s},
 outdoor(p){ // sunny meadow with tent and kite
   const r=rng(15);let s=`<defs>${lin(p+'sky',[[0,'#5a9ad8'],[.7,'#bfe0f2'],[1,'#eef6e0']])}${rad(p+'sun',[[0,'#fffbe8'],[.15,'#fff1b0',.8],[1,'#fff1b0',0]])}${lin(p+'h1',[[0,'#a8cc6a'],[1,'#7fa548']])}${lin(p+'h2',[[0,'#8bc04f'],[1,'#4f8a2a']])}${lin(p+'tent',[[0,'#f2a65a'],[1,'#b0562a']],0,0,1,0)}${lin(p+'stream',[[0,'#bfe6f8'],[1,'#5a9ad8']])}${blur(p+'b2',2)}<pattern id="${p}chk" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#f7f1e3"/><rect width="8" height="8" fill="#d63a4a"/><rect x="8" y="8" width="8" height="8" fill="#d63a4a"/></pattern></defs>`;
   s+=`<rect width="800" height="240" fill="url(#${p}sky)"/><circle cx="110" cy="50" r="120" fill="url(#${p}sun)"/><circle cx="110" cy="50" r="20" fill="#fffdf0"/>`;
@@ -1249,11 +1377,11 @@ outdoor(p){ // sunny meadow with tent and kite
   return s}
 };
 function renderScene(kind,pfx){return `<svg viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${sceneLabels[kind]}"><defs>${storyFX(pfx+'fx')}${paperDefs(pfx)}</defs><g transform="translate(-6 -6) scale(1.015 1.05)"><g filter="url(#${pfx}fx)">${scenes[kind](pfx)}</g></g>${paperOverlay(pfx,800,240)}</svg>`}
-const sceneLabels={narration:'A crackling stone fireplace with an armchair, a bookshelf and candles on the mantel',literature:'An underground lake in a cave, with stalactites, glowing fungi and two pale eyes watching from a rock',geography:'A winding road at dawn leading past a signpost towards snowy mountains',history:'A lone mountain at sunset above the ruined towers of an old town, with ravens circling',science:'A sunlit forest with light shafts, ferns, red mushrooms, bees and a dewy spider web',math:'A cave of treasure: heaps of gold coins, an open chest, a goblet and glittering gems',art:'A carved rune stone glowing in a meadow beside an easel with a painted map',cooking:'A warm kitchen with a seed-cake on a stand, a steaming teapot, jam and copper pans',character:'A lantern glowing on a winding path at twilight, with fireflies, stars and a moon',drama:'A little theatre stage with red curtains, footlights, a spotlight and a painted backdrop',notebook:'A writing desk with an open journal, a quill, an inkpot, a candle and a rolled map',outdoor:'A sunny meadow with a tent, a kite, a picnic blanket, a stream and wildflowers'};
+const sceneLabels={narration:'A crackling stone fireplace with an armchair, a bookshelf and candles on the mantel',literature:'An underground lake in a cave, with stalactites, glowing fungi and two pale eyes watching from a rock',geography:'A winding road at dawn leading past a signpost towards snowy mountains',history:'A lone mountain at sunset above the ruined towers of an old town, with ravens circling',science:'A sunlit forest with light shafts, ferns, red mushrooms, bees and a dewy spider web',math:'A cave of treasure: heaps of gold coins, an open chest, a goblet and glittering gems',art:'A carved rune stone glowing in a meadow beside an easel with a painted map',cooking:'A warm kitchen with a seed-cake on a stand, a steaming teapot, jam and copper pans',character:'A lantern glowing on a winding path at twilight, with fireflies, stars and a moon',drama:'A little theatre stage with red curtains, footlights, a spotlight and a painted backdrop',notebook:'A writing desk with an open journal, a quill, an inkpot, a candle and a rolled map',outdoor:'A sunny meadow with a tent, a kite, a picnic blanket, a stream and wildflowers',vault:'A hidden vault of stone arches and candles around a round stone door carved with glowing runes',moonroom:'A dark chamber with a great round window full of stars and a bright moon, a telescope and a star chart'};
 const ROM=['','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII'];
-const plateCap={narration:'By the fire, where every telling begins',literature:'The black lake under the mountain',geography:'The road goes ever east',history:'The Lonely Mountain at dusk',science:'Light in the old forest',math:'A hoard beyond counting',art:'The rune stone in the meadow',cooking:'Seed-cake and a pot of tea',character:'A lamp on the dark path',drama:'The curtain rises',notebook:'Notes by candlelight',outdoor:'A fine day for an expedition'};
+const plateCap={narration:'By the fire, where every telling begins',literature:'The black lake under the mountain',geography:'The road goes ever east',history:'The Lonely Mountain at dusk',science:'Light in the old forest',math:'A hoard beyond counting',art:'The rune stone in the meadow',cooking:'Seed-cake and a pot of tea',character:'A lamp on the dark path',drama:'The curtain rises',notebook:'Notes by candlelight',outdoor:'A fine day for an expedition',vault:'Candles in the Riddle Vault',treasury:'The hidden treasury',moon:'Starlight in the Moon Chamber'};
 const plateOrder=['narration','literature','geography','history','science','math','art','cooking','character','drama','notebook','outdoor'];
-document.querySelectorAll('.banner[data-scene]').forEach(b=>{const k=b.dataset.scene;b.classList.add('plate');b.innerHTML=`<div class="art">${renderScene(k,'b'+k)}</div><figcaption>Plate ${ROM[plateOrder.indexOf(k)+2]} &middot; ${plateCap[k]}</figcaption>`});
+document.querySelectorAll('.banner[data-scene]').forEach(b=>{const k=b.dataset.scene,ck=b.dataset.cap||k;const pi=plateOrder.indexOf(ck);b.classList.add('plate');b.innerHTML=`<div class="art">${renderScene(k,'b'+ck)}</div><figcaption>${pi<0?'A secret plate':'Plate '+ROM[pi+2]} &middot; ${plateCap[ck]}</figcaption>`});
 const ORN=`<svg class="orn" viewBox="0 0 120 16" aria-hidden="true"><path d="M2 8 H44 M76 8 H118" stroke="currentColor" stroke-width=".8"/><path d="M60 2 L66 8 L60 14 L54 8Z" fill="none" stroke="currentColor" stroke-width=".9"/><circle cx="60" cy="8" r="1.6" fill="currentColor"/><path d="M46 8 q4 -5 8 0 q-4 5 -8 0z M74 8 q-4 -5 -8 0 q4 5 8 0z" fill="currentColor" opacity=".7"/></svg>`;
 document.querySelectorAll('.panel-head').forEach(h=>h.insertAdjacentHTML('afterbegin',ORN));
 
@@ -1273,22 +1401,86 @@ const sections=[
  {id:'notebook',name:'Notebooking & Copywork',blurb:'A saved page per chapter, copywork lines'},
  {id:'outdoor',name:'Outdoor Play',blurb:'Scavenger hunt, quests, story games'}
 ];
-const tabs=$('#tabs');
-sections.forEach((s,i)=>{const b=el('button',{class:'tab',role:'tab',id:'t-'+s.id,'aria-selected':'false','data-id':s.id},(i?`<i>${ROM[i]}</i>`:'')+s.name);b.addEventListener('click',()=>show(s.id,true));tabs.appendChild(b)});
 const cards=$('#secCards');
 sections.slice(1).forEach(s=>{const c=el('button',{class:'sec-card','data-go':s.id},`<div class="thumb">${renderScene(s.id,'c'+s.id)}</div><div class="txt"><b><i class="num">${ROM[sections.indexOf(s)]}.</i> ${s.name}</b><span>${s.blurb}</span></div>`);cards.appendChild(c)});
-document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){show(g.dataset.go,true)}});
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){go(g.dataset.go,e)}});
+/* ================= LABYRINTH ================= */
+sections.push({id:'vault',name:'The Riddle Vault',blurb:'',secret:1},{id:'treasury',name:'The Hidden Treasury',blurb:'',secret:1},{id:'moon',name:'The Moon Chamber',blurb:'',secret:1});
+const GRAPH={home:['narration','cooking','notebook','outdoor'],narration:['home','drama','literature'],drama:['narration','character'],character:['drama','art'],art:['character','cooking','moon'],cooking:['home','art','notebook'],notebook:['home','cooking','history'],history:['notebook','math'],math:['history','geography','treasury'],geography:['math','outdoor'],outdoor:['home','geography','science'],science:['outdoor','literature'],literature:['science','narration','vault'],vault:['literature'],treasury:['math'],moon:['art']};
+const POS={home:[450,330],narration:[290,190],drama:[330,62],character:[520,72],art:[700,122],moon:[845,58],cooking:[610,218],notebook:[742,322],history:[772,470],math:[612,545],treasury:[778,598],geography:[420,572],outdoor:[232,500],science:[104,410],literature:[118,246],vault:[48,96]};
+const SHORT={home:'The Hall',narration:'Hearth Room',literature:'Lake Cave',geography:'Map Room',history:'Old Hall of Kings',science:'Root Garden',math:'Counting House',art:'Painted Room',cooking:'Kitchen',character:'Lamp Room',drama:'Little Stage',notebook:'Study',outdoor:'Garden Door',vault:'Riddle Vault',treasury:'Hidden Treasury',moon:'Moon Chamber'};
+const KEYS=[{id:'brass',name:'The Brass Key',col:'#e2b04f',hint:'Knock on the round door at the very top.'},{id:'moon',name:'The Moon Key',col:'#b9ccff',hint:'Read what only moonlight shows, in the Painted Room.'},{id:'riddle',name:'The Riddle Key',col:'#7fc8a4',hint:'Answer the sealed door beyond the Lake Cave.'},{id:'gold',name:'The Gold Key',col:'#f2c14e',hint:'Read the runes on the lock beyond the Counting House.'},{id:'star',name:'The Star Key',col:'#fff1b0',hint:'Trace all three constellations in the Moon Chamber.'}];
+const CURIOS={narration:{n:'A lost brass button',d:'Popped off a waistcoat in a great hurry.',x:90,y:30},literature:{n:'A pale cave pearl',d:'Cold and smooth, from the edge of a black lake.',x:22,y:74},geography:{n:'A chip of milestone',d:'Someone counted every mile of that road.',x:30,y:84},history:{n:'A raven\'s feather',d:'Black, glossy and very old.',x:84,y:84},science:{n:'A thrush\'s snail shell',d:'Cracked open on a favourite stone.',x:47,y:90},math:{n:'A single gold coin',d:'Stamped with a crown nobody remembers.',x:12,y:84},art:{n:'A stub of red chalk',d:'Perfect for marking secret doors.',x:66,y:92},cooking:{n:'A crumb of seed-cake',d:'Wrapped carefully in a dock leaf.',x:10,y:72},character:{n:'A lantern wick',d:'Still smells faintly of smoke.',x:56,y:90},drama:{n:'A paper crown',d:'Worn by the king in last week\'s play.',x:88,y:90},notebook:{n:'A pressed oak leaf',d:'Kept between the pages of a journal.',x:30,y:32},outdoor:{n:'A smooth river pebble',d:'Warm from the sun.',x:72,y:94}};
+const CURIO_ICON={narration:'<circle cx="20" cy="20" r="11" fill="#c9952e" stroke="#6a4a14" stroke-width="2"/><circle cx="16.5" cy="17" r="1.8" fill="#6a4a14"/><circle cx="23.5" cy="17" r="1.8" fill="#6a4a14"/><circle cx="16.5" cy="23" r="1.8" fill="#6a4a14"/><circle cx="23.5" cy="23" r="1.8" fill="#6a4a14"/>',literature:'<circle cx="20" cy="20" r="10" fill="#eef4f6" stroke="#8aa8b0" stroke-width="1.5"/><circle cx="16" cy="16" r="3" fill="#fff"/>',geography:'<path d="M9 30 L13 10 L29 8 L32 28Z" fill="#a9a59a" stroke="#5a564c" stroke-width="1.6"/><path d="M15 14 h10 M15 19 h7" stroke="#5a564c" stroke-width="1.4"/>',history:'<path d="M10 32 Q14 14 30 7 Q24 20 10 32Z" fill="#1c1a24" stroke="#4a4a6a" stroke-width="1"/><path d="M10 32 L26 11" stroke="#6a6a9a" stroke-width="1"/>',science:'<circle cx="20" cy="21" r="11" fill="#c9a06a" stroke="#6a4a24" stroke-width="1.6"/><path d="M20 21 m-7 0 a7 7 0 1 1 7 7 a4.5 4.5 0 1 1 -4.5 -4.5 a2 2 0 1 1 2 2" fill="none" stroke="#6a4a24" stroke-width="1.6"/>',math:'<circle cx="20" cy="20" r="11" fill="#f2c14e" stroke="#a8701a" stroke-width="2"/><circle cx="20" cy="20" r="7" fill="none" stroke="#a8701a" stroke-width="1.2"/><path d="M16 22 l2 -6 l2 4 l2 -4 l2 6z" fill="#a8701a"/>',art:'<rect x="9" y="16" width="22" height="8" rx="3" fill="#c23a2e" transform="rotate(-30 20 20)"/><rect x="9" y="16" width="5" height="8" fill="#f7e2d0" transform="rotate(-30 20 20)"/>',cooking:'<path d="M6 24 Q20 6 34 18 Q24 32 6 24Z" fill="#5f8a2e" stroke="#3a5a1a" stroke-width="1.4"/><circle cx="20" cy="21" r="5" fill="#e9b86a" stroke="#a8702e" stroke-width="1"/>',character:'<path d="M20 34 V16" stroke="#3a2a14" stroke-width="2.4"/><path d="M20 15 c-4 -4 -1 -9 0 -11 c3 4 5 8 0 11z" fill="#ffb347"/>',drama:'<path d="M7 28 L9 13 L14 21 L20 10 L26 21 L31 13 L33 28Z" fill="#f2d36e" stroke="#a8701a" stroke-width="1.6"/>',notebook:'<path d="M20 34 V22 M20 22 C10 24 6 14 12 12 C8 6 16 4 18 9 C20 3 28 6 25 11 C32 11 32 20 20 22Z" fill="#d9822e" stroke="#7a3a16" stroke-width="1.4"/>',outdoor:'<ellipse cx="20" cy="22" rx="13" ry="9" fill="#9a9a9a" stroke="#5a5a5a" stroke-width="1.4"/><ellipse cx="16" cy="19" rx="5" ry="2.5" fill="#fff" opacity=".4"/>'};
+const keySvg=(c,on)=>`<svg viewBox="0 0 48 24" aria-hidden="true"><g ${on?'':'opacity=".22"'}><circle cx="11" cy="12" r="7" fill="none" stroke="${on?c:'#8a7a62'}" stroke-width="3.6"/><path d="M18 12h25M36 12v6M42 12v5" stroke="${on?c:'#8a7a62'}" stroke-width="3.6" stroke-linecap="round"/></g></svg>`;
+const LS={keys:store.get('rd-keys',[]),curios:store.get('rd-curios',[]),visited:store.get('rd-visited',['home']),unl:store.get('rd-unl',{})};
+function saveLS(){store.set('rd-keys',LS.keys);store.set('rd-curios',LS.curios);store.set('rd-visited',LS.visited);store.set('rd-unl',LS.unl)}
+const isSecret=id=>id==='vault'||id==='treasury'||id==='moon';
+const isOpen=id=>id==='vault'?!!LS.unl.vault:id==='treasury'?!!LS.unl.treasury:id==='moon'?LS.keys.includes('moon'):true;
+let curRoom='home';
+function toast(html){const t=$('#toast');t.innerHTML=html;t.classList.remove('show');void t.offsetWidth;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),4200)}
+function earnKey(id){if(LS.keys.includes(id))return;LS.keys.push(id);saveLS();const k=KEYS.find(x=>x.id===id);toast(`${keySvg(k.col,true)}<div><span class="label">Lore key found · ${LS.keys.length} of 5</span><b>${k.name}</b></div>`);sparkle($('#satchel'),true);refreshAll()}
+function findCurio(id,btn){if(LS.curios.includes(id))return;LS.curios.push(id);saveLS();const c=CURIOS[id];sparkle(btn,true);btn.remove();toast(`<svg viewBox="0 0 40 40" aria-hidden="true">${CURIO_ICON[id]}</svg><div><span class="label">Curio found · ${LS.curios.length} of 12</span><b>${c.n}</b></div>`);refreshAll()}
+function bfs(a,b){const prev={[a]:null},q=[a];while(q.length){const n=q.shift();if(n===b)break;for(const m of GRAPH[n])if(!(m in prev)){prev[m]=n;q.push(m)}}const path=[];let n=b;while(n!=null){path.unshift(n);n=prev[n]}return path}
+const EDGES=[];Object.keys(GRAPH).forEach(a=>GRAPH[a].forEach(b=>{if(a<b)EDGES.push([a,b])}));
+function edgePath(a,b){const [ax,ay]=POS[a],[bx,by]=POS[b];const r=rng((a+b).split('').reduce((s,c)=>s+c.charCodeAt(0),0));const mx=(ax+bx)/2,my=(ay+by)/2,dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy);const off=(r()-.5)*L*.45;return `M${ax} ${ay} Q${f1(mx-dy/L*off)} ${f1(my+dx/L*off)} ${bx} ${by}`}
+const ROOM_ICON={home:'<circle cx="12" cy="13" r="8" fill="#2f5e2a" stroke="#1c3a18"/><circle cx="12" cy="13" r="1.8" fill="#f2c14e"/>',narration:'<path d="M12 3c1 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-4 3-6 0 2 1 3 2 3 0-3-1-5 1-8z" fill="#e8742a"/><path d="M12 11c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1.5 1-2.5 2-3.5 0 1 .5 1.5 1 1.5z" fill="#ffd36e"/>',literature:'<path d="M3 6c4-1 7-1 9 1v12c-2-2-5-2-9-1zM21 6c-4-1-7-1-9 1v12c2-2 5-2 9-1z" fill="#f7efd9" stroke="#5a3d22" stroke-width="1.4"/>',geography:'<path d="M2 20 L9 7 L13 13 L16 9 L22 20Z" fill="#8a8fa8" stroke="#3e3020" stroke-width="1.2"/><path d="M9 7 L7 11 L11 11Z" fill="#fff"/>',history:'<path d="M7 3h10v4l-4 5 4 5v4H7v-4l4-5-4-5z" fill="#e9d6a8" stroke="#5a3d22" stroke-width="1.4"/><path d="M9 19h6l-3-3z" fill="#c68a24"/>',science:'<path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15z" fill="#6f9440" stroke="#3a5a1e" stroke-width="1.2"/><path d="M5 19L15 9" stroke="#3a5a1e" stroke-width="1.2"/>',math:'<ellipse cx="12" cy="17" rx="7" ry="3" fill="#c68a24"/><ellipse cx="12" cy="14" rx="7" ry="3" fill="#e2b04f"/><ellipse cx="12" cy="11" rx="7" ry="3" fill="#f2c14e" stroke="#a8701a"/>',art:'<path d="M12 3c6 0 10 4 10 9 0 3-2 4-5 4-2 0-2 1-2 2 0 2-1 3-3 3-5 0-9-4-9-9s4-9 9-9z" fill="#e9d6a8" stroke="#5a3d22" stroke-width="1.2"/><circle cx="8" cy="10" r="1.6" fill="#d63a4a"/><circle cx="12" cy="7" r="1.6" fill="#3a6fe0"/><circle cx="16" cy="10" r="1.6" fill="#4c6a37"/>',cooking:'<ellipse cx="11" cy="14" rx="7" ry="6" fill="#2f6a96"/><path d="M18 13 q4 -1 4 -5" stroke="#2f6a96" stroke-width="2" fill="none"/><rect x="9" y="6" width="4" height="2" rx="1" fill="#173a58"/>',character:'<rect x="8" y="8" width="8" height="10" rx="1.5" fill="#ffd36e" stroke="#3a2a14" stroke-width="1.4"/><path d="M7 8 L12 4 L17 8Z" fill="#3a2a14"/><path d="M10 20h4" stroke="#3a2a14" stroke-width="2"/>',drama:'<path d="M3 3h18v3H3z" fill="#a8701a"/><path d="M3 6h7c0 6-2 10-4 15H3z M21 6h-7c0 6 2 10 4 15h3z" fill="#c22a2e"/>',notebook:'<path d="M5 21 L18 4 Q22 8 16 13 Z" fill="#f7f1e3" stroke="#5a3d22" stroke-width="1.2"/><path d="M5 21 L14 10" stroke="#5a3d22" stroke-width="1"/>',outdoor:'<path d="M2 20 L12 4 L22 20Z" fill="#e98a3a" stroke="#7a3a16" stroke-width="1.2"/><path d="M10 20 L12 12 L14 20Z" fill="#3a1a0c"/>',vault:'<circle cx="12" cy="9" r="4" fill="#7fc8a4"/><path d="M10 12 L9 20 L15 20 L14 12Z" fill="#7fc8a4"/>',treasury:'<path d="M5 9 L12 3 L19 9 L12 21Z" fill="#d63a4a" stroke="#7a1020" stroke-width="1.2"/><path d="M5 9h14" stroke="#fff" stroke-opacity=".6"/>',moon:'<path d="M15 3a9 9 0 1 0 6 15A7 7 0 0 1 15 3z" fill="#e8eeff" stroke="#8aa0d8" stroke-width="1.2"/>'};
+const LOCK_ICON='<circle cx="12" cy="9" r="4" fill="#1a120a"/><path d="M10 12 L9 20 L15 20 L14 12Z" fill="#1a120a"/>';
+function buildMaze(svg){const P=svg.id;const R2=rng(17);
+ let d=`<defs>${storyFX(P+'fx',2.6)}${paperDefs(P+'p')}${rad(P+'bg',[[0,'#f1e2bf'],[.65,'#dcc392'],[1,'#a98656']],.5,.5,.78)}${rad(P+'rm',[[0,'#fff3c4'],[.55,'#ecc985'],[1,'#a8702e']],.4,.35,.75)}${rad(P+'dk',[[0,'#5a4c3c'],[1,'#1e1610']],.4,.35,.75)}${rad(P+'fog',[[0,'#ecdcb6',.92],[.75,'#ecdcb6',.75],[1,'#ecdcb6',0]])}${rad(P+'halo',[[0,'#ffd36e',.8],[1,'#ffd36e',0]])}</defs><g filter="url(#${P}fx)"><rect width="900" height="690" fill="url(#${P}bg)"/>`;
+ for(let i=0;i<46;i++){const x=R2()*900,y=R2()*650;d+=`<path d="M${f1(x)} ${f1(y)} q${f1(R2()*30-15)} ${f1(10+R2()*20)} ${f1(R2()*40-20)} ${f1(24+R2()*30)} q${f1(R2()*10-5)} 8 ${f1(R2()*14-7)} 14" stroke="#7a5a34" stroke-width="${f1(.8+R2()*1.6)}" fill="none" opacity=".35"/>`}
+ for(let i=0;i<60;i++)d+=`<ellipse cx="${f1(R2()*900)}" cy="${f1(R2()*690)}" rx="${f1(2+R2()*5)}" ry="${f1(1.5+R2()*3)}" fill="#8a7050" opacity="${f1(.2+R2()*.3)}"/>`;
+ d+=`<g transform="translate(64 610)" stroke="#5a4630" fill="none" opacity=".75"><circle r="30"/><path d="M0 -36 L5 0 L0 36 L-5 0Z" fill="#a24f26" stroke="none"/><text y="-42" text-anchor="middle" font-family="IM Fell English, serif" font-size="14" fill="#3e2f1c" stroke="none">N</text></g>`;
+ d+=`<text x="880" y="676" text-anchor="end" font-family="IM Fell English, serif" font-style="italic" font-size="20" fill="#3e2f1c" opacity=".75">The Labyrinth under the Hill</text>`;
+ EDGES.forEach(([a,b])=>{const pd=edgePath(a,b);const sec=isSecret(a)||isSecret(b);const open=sec?(isOpen(a)&&isOpen(b)):true;
+  if(open){d+=`<path d="${pd}" stroke="#4a3826" stroke-width="36" stroke-linecap="round" fill="none" opacity=".9"/><path d="${pd}" stroke="#ead9b0" stroke-width="27" stroke-linecap="round" fill="none"/><path d="${pd}" stroke="#c9b083" stroke-width="2" stroke-dasharray="2 11" stroke-linecap="round" fill="none"/>`}
+  else d+=`<path d="${pd}" stroke="#4a3826" stroke-width="2.2" stroke-dasharray="3 7" fill="none" opacity=".7"/>`;
+  d+=`<path id="${P}-e-${a}-${b}" d="${pd}" fill="none" stroke="none"/>`});
+ let labels='';Object.keys(POS).forEach(id=>{const [x,y]=POS[id];const sec=isSecret(id),open=isOpen(id),vis=LS.visited.includes(id),here=id===curRoom;
+  const name=sec&&!open?'A sealed door':SHORT[id];const ly=y+70;
+  d+=`<g class="room" data-room="${id}" tabindex="0" role="button" aria-label="${name}${here?' (you are here)':''}">`;
+  if(here)d+=`<circle cx="${x}" cy="${y}" r="78" fill="url(#${P}halo)" class="glow"/>`;
+  d+=`<circle cx="${x+3}" cy="${y+5}" r="48" fill="#2a1e12" opacity=".35"/><circle cx="${x}" cy="${y}" r="45" fill="url(#${P}${sec&&!open?'dk':'rm'})" stroke="#7d6b52" stroke-width="9" stroke-dasharray="12 3"/><circle cx="${x}" cy="${y}" r="45" fill="none" stroke="#2b2418" stroke-width="1.4" opacity=".7"/>`;
+  d+=`<g transform="translate(${x-21} ${y-21}) scale(1.75)">${sec&&!open?LOCK_ICON.replace(/#1a120a/g,'#c9b083'):ROOM_ICON[id]}</g>`;
+  if(!vis&&!here)d+=`<circle cx="${x}" cy="${y}" r="62" fill="url(#${P}fog)" pointer-events="none"/>`;
+  if(here)d+=`<circle class="ripple" cx="${x}" cy="${y}" r="50" fill="none" stroke="#e2a93b" stroke-width="3"/>`;
+  d+=`</g>`;labels+=`<text x="${x}" y="${ly}" text-anchor="middle" font-family="IM Fell English, serif" font-size="19" fill="${here?'#a24f26':'#2f2417'}" stroke="#efe0bc" stroke-width="5" paint-order="stroke" pointer-events="none">${name}</text>`});d+=labels;
+ d+=`</g>${paperOverlay(P+'p',900,690)}<g id="${P}-lan" opacity="0" pointer-events="none"><circle r="34" fill="url(#${P}halo)"/><circle r="8" fill="#fff3c4"/></g>`;
+ svg.innerHTML=d;const w=svg.parentElement;if(w&&w.scrollWidth>w.clientWidth+4){const [x,y]=POS[curRoom];w.scrollLeft=x/900*w.scrollWidth-w.clientWidth/2;w.scrollTop=y/690*w.scrollHeight-w.clientHeight/2}}
+function travel(svg,from,to,done){const path=bfs(from,to);if(reduce||path.length<2){done();return}const lan=$('#'+svg.id+'-lan');lan.setAttribute('opacity','1');let i=0;
+ const leg=()=>{if(i>=path.length-1){setTimeout(()=>{lan.setAttribute('opacity','0');done()},120);return}const a=path[i],b=path[i+1];const fwd=a<b;const pe=$('#'+svg.id+'-e-'+(fwd?a:b)+'-'+(fwd?b:a));const L=pe.getTotalLength();const t0=performance.now(),dur=Math.max(260,Math.min(520,L*1.4));
+  const f=now=>{let t=Math.min(1,(now-t0)/dur);t=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;const p=pe.getPointAtLength(fwd?L*t:L*(1-t));lan.setAttribute('transform',`translate(${f1(p.x)} ${f1(p.y)})`);if(t<1)requestAnimationFrame(f);else{i++;leg()}};requestAnimationFrame(f)};leg()}
+const PASSAGES=['Down the winding stair','Along the root-lined tunnel','Past the dripping arch','Under the old oak beam','Through the low round door','By the whispering wall','Round the crooked corner','Up the worn stone steps'];
+let going=false;
+function go(id,ev){if(going)return;if(id===curRoom){show(id,true);return}if(reduce){show(id,true);return}going=true;const ov=$('#passage');const x=ev&&ev.clientX!=null?ev.clientX:innerWidth/2,y=ev&&ev.clientY!=null?ev.clientY:innerHeight/2;ov.style.setProperty('--px',x+'px');ov.style.setProperty('--py',y+'px');
+ $('#passText').textContent=PASSAGES[Math.floor(Math.random()*PASSAGES.length)]+'…';ov.classList.add('on');
+ setTimeout(()=>{show(id,true)},650);setTimeout(()=>{ov.style.setProperty('--px','50%');ov.style.setProperty('--py','50%');ov.classList.remove('on');going=false},1000)}
+function renderBar(){const s=sections.find(x=>x.id===curRoom);const sec=isSecret(curRoom);$('#here').innerHTML=`<span class="num">${sec?'✦':curRoom==='home'?'⌂':ROM[sections.indexOf(s)]}</span> ${sec&&!isOpen(curRoom)?'A sealed door':curRoom==='home'?'The Hall':s.name}`;
+ $('#doors').innerHTML='<span class="dl">Doors</span>'+GRAPH[curRoom].map(n=>{const sealed=isSecret(n)&&!isOpen(n);return `<button class="door${sealed?' sealed':''}${isSecret(n)?' secret':''}" data-go="${n}"><svg viewBox="0 0 16 16" aria-hidden="true">${sealed?'<circle cx="8" cy="6" r="2.4" fill="currentColor"/><path d="M6.8 7.5 L6 13 L10 13 L9.2 7.5Z" fill="currentColor"/>':'<path d="M3 14 V7 a5 5 0 0 1 10 0 V14Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="1" fill="currentColor"/>'}</svg>${sealed?'Sealed door':SHORT[n]}</button>`}).join('')}
+function mazeStats(){const total=15;const v=LS.visited.filter(x=>x!=='home'&&POS[x]).length;const ms=$('#mazeStats');if(ms)ms.textContent=`${v} of ${total} rooms explored · ${LS.keys.length}/5 keys · ${LS.curios.length}/12 curios`;$('#satchelCount').textContent=`${LS.keys.length+LS.curios.length}/17`}
+function refreshAll(){renderBar();buildMaze($('#mazeH'));if(!$('#modal').hidden&&$('#mazeM'))buildMaze($('#mazeM'));mazeStats();renderLocks&&renderLocks();renderGlints()}
+function mazeClick(svg,e){const r=e.target.closest('.room');if(!r)return;const id=r.dataset.room;const inModal=svg.id==='mazeM';travel(svg,curRoom,id,()=>{if(inModal)closeModal();go(id,e)})}
+['click','keydown'].forEach(t=>document.addEventListener(t,e=>{if(t==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;const svg=e.target.closest&&e.target.closest('svg.maze');if(svg&&e.target.closest('.room')){if(t==='keydown')e.preventDefault();mazeClick(svg,e)}}));
+function openModal(html,cls){const m=$('#modal');$('#modalBody').innerHTML=html;m.className='modal '+(cls||'');m.hidden=false;document.body.style.overflow='hidden';setTimeout(()=>{const c=m.querySelector('.mclose');c&&c.focus()},50)}
+function closeModal(){$('#modal').hidden=true;document.body.style.overflow=''}
+document.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeModal()});
+function openMap(){openModal(`<div class="row between"><span class="label">You are in: ${SHORT[curRoom]}</span><span class="score">${LS.visited.filter(x=>POS[x]&&x!=='home').length} of 15 rooms explored</span></div><h3>Where will the lantern lead?</h3><div class="maze-wrap"><svg class="maze" id="mazeM" viewBox="0 0 900 690" role="group" aria-label="Map of the labyrinth"></svg></div>`,'wide');buildMaze($('#mazeM'))}
+function openSatchel(){const keys=KEYS.map(k=>{const on=LS.keys.includes(k.id);return `<div class="slot${on?' on':''}">${keySvg(k.col,on)}<div><b>${on?k.name:'An unknown key'}</b><span>${on?'Found':k.hint}</span></div></div>`}).join('');
+ const cur2=Object.keys(CURIOS).map(id=>{const on=LS.curios.includes(id);const c=CURIOS[id];return `<div class="slot${on?' on':''}"><svg viewBox="0 0 40 40" aria-hidden="true">${on?CURIO_ICON[id]:'<circle cx="20" cy="20" r="12" fill="none" stroke="#a8936d" stroke-width="1.6" stroke-dasharray="3 3"/><text x="20" y="25" text-anchor="middle" font-family="IM Fell English, serif" font-size="14" fill="#a8936d">?</text>'}</svg><div><b>${on?c.n:'Something glints…'}</b><span>${on?c.d:'Look very closely at the picture in the '+SHORT[id]+'.'}</span></div></div>`}).join('');
+ openModal(`<span class="label">Your satchel</span><h3>Lore keys · ${LS.keys.length} of 5</h3><div class="slots">${keys}</div><h3 style="margin-top:18px">Curios · ${LS.curios.length} of 12</h3><div class="slots">${cur2}</div><p class="note" style="margin-top:12px">Everything you find is kept on this device.</p>`)}
+function renderGlints(){document.querySelectorAll('.panel').forEach(p=>{const id=p.id.slice(2);const c=CURIOS[id];if(!c)return;const art=p.querySelector('.banner .art');if(!art)return;let g=art.querySelector('.glint');if(LS.curios.includes(id)){g&&g.remove();return}if(!g){g=el('button',{class:'glint','aria-label':'Something glints here',style:`left:${c.x}%;top:${c.y}%`});g.onclick=()=>findCurio(id,g);art.appendChild(g)}})}
+
 function show(id,scroll){
-  const s=sections.find(x=>x.id===id)||sections[0];
+  const s=sections.find(x=>x.id===id)||sections[0];curRoom=s.id;
   document.querySelectorAll('.panel').forEach(p=>p.hidden=true);
   const panel=$('#p-'+s.id);panel.hidden=false;panel.style.animation='none';void panel.offsetWidth;panel.style.animation='';
-  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.id===s.id?'true':'false'));
-  const t=$('#t-'+s.id);t&&t.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  if(!LS.visited.includes(s.id)){LS.visited.push(s.id);saveLS()}
   try{history.replaceState(null,'','#'+s.id)}catch(e){}
   store.set('rd-tab',s.id);
-  if(scroll){const top=$('.tabs-shell').getBoundingClientRect().top+window.scrollY-4;if(window.scrollY>top||id!=='home')window.scrollTo({top:Math.max(0,top),behavior:'smooth'})}
+  if(scroll){const top=$('.tabs-shell').getBoundingClientRect().top+window.scrollY-4;if(window.scrollY>top||id!=='home')window.scrollTo({top:Math.max(0,top),behavior:reduce?'auto':'smooth'})}
   if(s.id==='geography')drawRoute();
   if(s.id==='art')sizeCanvas();
+  refreshAll();
 }
 
 
@@ -1575,7 +1767,7 @@ const updRunes=()=>{$('#runeOut').textContent=toRunes($('#runeIn').value)||' ';s
  d+=`<g transform="translate(110 80)" stroke="#6a5843" fill="none"><circle r="34"/><path d="M0 -40 L6 0 L0 40 L-6 0Z" fill="#a24f26" stroke="none"/></g><rect x="8" y="8" width="784" height="384" fill="none" stroke="#8a6a40" stroke-width="2"/></g>`;b.innerHTML=d;
  $('#moonRunes').textContent=toRunes('Seek the door where the last light falls');
  const mm=$('#moonmap');let dwell=0,lastT=0;
- const move=e=>{const r=mm.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;mm.style.setProperty('--mx',x+'px');mm.style.setProperty('--my',y+'px');if(mm.classList.contains('found'))return;const t=$('#moonRunes').getBoundingClientRect();const inside=e.clientX>t.left-40&&e.clientX<t.right+40&&e.clientY>t.top-50&&e.clientY<t.bottom+50;const now=performance.now();if(inside){dwell+=Math.min(80,now-(lastT||now))}lastT=now;if(dwell>1300){mm.classList.add('found');sparkle($('#moonRunes'),true);$('#moonMsg').textContent='You found the moon-letters!'}};
+ const move=e=>{const r=mm.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;mm.style.setProperty('--mx',x+'px');mm.style.setProperty('--my',y+'px');if(mm.classList.contains('found'))return;const t=$('#moonRunes').getBoundingClientRect();const inside=e.clientX>t.left-40&&e.clientX<t.right+40&&e.clientY>t.top-50&&e.clientY<t.bottom+50;const now=performance.now();if(inside){dwell+=Math.min(80,now-(lastT||now))}lastT=now;if(dwell>1300){mm.classList.add('found');sparkle($('#moonRunes'),true);$('#moonMsg').textContent='You found the moon-letters! A silver key appears in your satchel.';earnKey('moon')}};
  mm.addEventListener('pointermove',move);mm.addEventListener('pointerdown',move);mm.addEventListener('pointerleave',()=>{lastT=0;if(!mm.classList.contains('found')){mm.style.setProperty('--mx','-300px');mm.style.setProperty('--my','-300px')}});})();
 $('#runeKey').innerHTML=Object.entries(runeMap).filter(([k])=>!['ee','q','k','v','z'].includes(k)).map(([k,v])=>`<div><b>${v}</b>${k.toUpperCase()}</div>`).join('');
 
@@ -1611,6 +1803,7 @@ $('#mmClear').onclick=()=>{strokes=[];store.set('rd-map',strokes);redraw()};
 let dl=null;$('#mmSave').hidden=true;$('#nbDownload').hidden=true;
 (async()=>{try{dl=window.claude&&await window.claude.use('downloads')}catch(e){dl=null}if(!window.claude){dl={save:async({filename,data})=>{const a=document.createElement('a');const u=URL.createObjectURL(data instanceof Blob?data:new Blob([data],{type:'text/plain'}));a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}}}if(dl){$('#mmSave').hidden=false;$('#nbDownload').hidden=false}})();
 async function offer(filename,data,msgEl){if(!dl)return;try{await dl.save({filename,data});msgEl.textContent='Saved ✓'}catch(e){msgEl.textContent=e&&e.code==='declined'?'':(e&&e.code==='rate_limited'?'One moment, then try again.':'Saving is not available here.')}setTimeout(()=>msgEl.textContent='',2500)}
+window.__go=go;
 $('#mmSave').onclick=()=>cv.toBlob(bl=>{if(bl)offer('my-adventure-map.png',bl,$('#mmMsg'))},'image/png');
 addEventListener('resize',()=>{if(!$('#p-art').hidden)sizeCanvas()});
 
@@ -1732,15 +1925,57 @@ $('#questBtn').onclick=()=>{const q=$('#quest');q.textContent=qa[Math.floor(Math
 const games=[['Guard the hoard','2+ players','One player is the sleeping dragon, sitting with eyes closed beside a pile of "treasure". The others creep up to steal one piece each.',['The dragon may open their eyes at any time.','Anyone caught moving goes back to the start.','Steal a piece without being seen and you win the round.','The last thief becomes the next dragon.']],['Riddle relay','4+ players, two teams','Teams line up at one end of the garden. At the far end, an adult holds riddle cards.',['First runner races down and hears a riddle.','They run back and whisper it to their team.','The team shouts the answer together.','Right answer: the next runner goes. First team through all the riddles wins.']],['Barrels down the river','3+ players','Mark a winding "river" with ropes or sticks. Players roll a ball or bucket along it without letting it cross the banks.',['Each player gets one go at a time.','If the barrel leaves the river, start that player again.','Time each run.','Fastest clean run wins.']],['Stay on the path','2+ players','Lay a string path through a tricky course of cushions and chairs. One player wears a blindfold; the guide may only speak, never touch.',['The walker must keep a hand on the string.','The guide gives directions out loud.','Step off the path and you start again.','Swap roles when you reach the end.']]];
 $('#games').innerHTML=games.map(([h,who,setup,steps])=>`<div class="game"><div class="row between"><h3>${h}</h3><span class="chip">${who}</span></div><p>${setup}</p><ol>${steps.map(s=>`<li>${s}</li>`).join('')}</ol></div>`).join('');
 
+/* ================= SECRET ROOMS ================= */
+const norm=s=>' '+String(s).toLowerCase().replace(/[^a-z ]/g,' ').replace(/\s+/g,' ').trim()+' ';
+const matches=(v,ans)=>ans.some(a=>norm(v).includes(' '+a+' '));
+function renderLocks(){[['vault','#vaultLock','#vaultInner'],['treasury','#treasLock','#treasInner'],['moon','#moonLock','#moonInner']].forEach(([id,l,i])=>{const o=isOpen(id);$(l).hidden=o;$(i).hidden=!o});renderCabinet();renderCharter()}
+function wrongShake(inp,fb,msg){inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');fb.textContent=msg;fb.style.color='var(--bad)'}
+// vault
+$('#vaultBtn').onclick=()=>{const v=$('#vaultIn').value;if(matches(v,['footsteps','footstep','steps','step','footprints','footprint','tracks'])){LS.unl.vault=1;saveLS();sparkle($('#vaultBtn'),true);earnKey('riddle');renderLocks()}else wrongShake($('#vaultIn'),$('#vaultFb'),'The stone stays still. Think about walking…')};
+$('#vaultIn').onkeydown=e=>{if(e.key==='Enter')$('#vaultBtn').click()};
+const VR=[{q:'I have a mouth but never eat, a bed but never sleep, and I run but never walk.',a:['river','stream']},{q:'I have cities but no houses, forests but no trees, and rivers but no water.',a:['map','a map']},{q:'What gets wetter the more it dries?',a:['towel']},{q:'I am as light as a feather, yet even the strongest giant cannot hold me for long.',a:['breath','your breath']},{q:'What can you catch but never throw?',a:['cold','a cold']},{q:'What has a neck but no head, and wears a cap but no hat?',a:['bottle']}];
+let vDone=store.get('rd-vault',[]);
+function renderVault(){$('#candles').innerHTML=VR.map((r,i)=>{const on=vDone.includes(i);return `<svg viewBox="0 0 30 70" aria-hidden="true"><ellipse cx="15" cy="66" rx="13" ry="3" fill="#000" opacity=".25"/><rect x="8" y="30" width="14" height="34" rx="2" fill="#efe2c4"/><path d="M8 34 q3 6 1 14" stroke="#d9c9a4" stroke-width="2" fill="none"/><line x1="15" y1="30" x2="15" y2="25" stroke="#2a1608" stroke-width="1.4"/>${on?'<circle cx="15" cy="18" r="13" fill="#ffcf6e" opacity=".35" class="glow"/><path class="flame" d="M15 25 c-5 -6 -2 -14 0 -17 c3 5 6 11 0 17z" fill="#ffc04a"/><path class="flame f2" d="M15 24 c-2 -3 -1 -6 0 -8 c2 2 2 5 0 8z" fill="#fff6d0"/>':''}</svg>`}).join('');
+ $('#vriddles').innerHTML=VR.map((r,i)=>{const on=vDone.includes(i);return `<div class="vr${on?' done':''}"><p class="quiz-q" style="font-size:1.12rem">${i+1}. ${r.q}</p>${on?`<p class="feedback" style="color:var(--good)">Solved: ${r.a[0]}.</p>`:`<div class="row"><input data-i="${i}" placeholder="Your answer" aria-label="Answer to riddle ${i+1}"><button class="btn small" data-vr="${i}">Answer</button><span class="feedback"></span></div>`}</div>`}).join('');$('#vaultScore').textContent=`${vDone.length} of ${VR.length} candles lit`}
+$('#vriddles').addEventListener('click',e=>{const b=e.target.closest('[data-vr]');if(!b)return;const i=+b.dataset.vr;const inp=b.previousElementSibling,fb=b.nextElementSibling;if(matches(inp.value,VR[i].a)){vDone.push(i);store.set('rd-vault',vDone);sparkle(b,vDone.length===VR.length);renderVault()}else wrongShake(inp,fb,'Not that. Try again.')});
+$('#vriddles').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.i!=null)e.target.nextElementSibling.click()});
+renderVault();
+const mr=$('#myRiddle');mr.value=store.get('rd-myriddle','');let mrT;mr.oninput=()=>{clearTimeout(mrT);mrT=setTimeout(()=>{store.set('rd-myriddle',mr.value);$('#myRiddleSaved').textContent='Carved ✓';setTimeout(()=>$('#myRiddleSaved').textContent='',1500)},400)};
+// treasury
+$('#treasRunes').textContent=toRunes('hoard');$('#treasKey').innerHTML=$('#runeKey').innerHTML;
+$('#treasBtn').onclick=()=>{if(matches($('#treasIn').value,['hoard'])){LS.unl.treasury=1;saveLS();if(!reduce)for(let k=0;k<5;k++)setTimeout(()=>spawn(Math.random()*innerWidth,-10,14,2,90,GOLD,.12),k*160);earnKey('gold');renderLocks()}else wrongShake($('#treasIn'),$('#treasFb'),'The lock does not turn. Check each rune against the key.')};
+$('#treasIn').onkeydown=e=>{if(e.key==='Enter')$('#treasBtn').click()};
+function renderCabinet(){const c=$('#cabinet');if(!c)return;c.innerHTML=Object.keys(CURIOS).map(id=>{const on=LS.curios.includes(id);return `<div class="shelf${on?' on':''}" title="${on?CURIOS[id].n:'Not yet found'}"><svg viewBox="0 0 40 40" aria-hidden="true">${on?CURIO_ICON[id]:'<text x="20" y="26" text-anchor="middle" font-family="IM Fell English, serif" font-size="16" fill="#a8936d">?</text>'}</svg><small>${on?CURIOS[id].n:SHORT[id]}</small></div>`}).join('')}
+const CIPH=['key','door','moon','lantern','river'];let cDone=store.get('rd-ciph',[]);
+function renderCiph(){$('#ciphers').innerHTML=CIPH.map((w,i)=>{const on=cDone.includes(i);return `<div class="ciph${on?' done':''}"><span class="crunes">${toRunes(w)}</span>${on?`<b class="score">${w.toUpperCase()}</b>`:`<span class="row"><input data-i="${i}" aria-label="Decode cipher ${i+1}" placeholder="Decode…" style="width:130px"><button class="btn small" data-c="${i}">Check</button></span>`}</div>`}).join('')}
+$('#ciphers').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;const i=+b.dataset.c;const inp=b.previousElementSibling;if(norm(inp.value).trim()===CIPH[i]){cDone.push(i);store.set('rd-ciph',cDone);sparkle(b,cDone.length===CIPH.length);renderCiph()}else{inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake')}});
+$('#ciphers').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.i!=null)e.target.nextElementSibling.click()});
+renderCiph();
+// moon chamber: constellations
+const CONS=[{n:'The Lantern',s:[[150,58],[118,96],[182,96],[108,196],[192,196],[150,222]],q:[0,1,3,5,4,2,0]},{n:'The Key',s:[[330,268],[365,240],[400,268],[365,296],[470,268],[560,268],[560,300],[528,300]],q:[2,1,0,3,2,4,5,6,7]},{n:'The Round Door',s:Array.from({length:8},(_,k)=>[f1(680+Math.cos(k/8*6.283-1.571)*78),f1(150+Math.sin(k/8*6.283-1.571)*78)]),q:[0,1,2,3,4,5,6,7,0]}];
+let cprog=store.get('rd-stars',[0,0,0]);
+function renderSky(){const r=rng(5);let d=`<defs>${lin('skyM',[[0,'#05081c'],[.7,'#141c48'],[1,'#2a2a5a']])}${rad('stG',[[0,'#fff',.9],[1,'#cfe0ff',0]])}</defs><rect width="800" height="420" fill="url(#skyM)"/>`;for(let i=0;i<170;i++)d+=`<circle cx="${f1(r()*800)}" cy="${f1(r()*420)}" r="${f1(.4+r()*1.1)}" fill="#fff" opacity="${f1(.2+r()*.6)}"/>`;
+ d+=`<path d="M0 420 Q200 380 400 400 T800 390 L800 420Z" fill="#0a0c18"/>`;
+ CONS.forEach((c,ci)=>{const p=cprog[ci],doneC=p>=c.q.length;let lines='';for(let k=1;k<Math.min(p,c.q.length);k++){const a=c.s[c.q[k-1]],b=c.s[c.q[k]];lines+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`}
+  d+=`<g stroke="${doneC?'#ffe9a0':'#cfe0ff'}" stroke-width="${doneC?2.4:1.6}" stroke-linecap="round" opacity=".9" ${doneC?'class="glow"':''}>${lines}</g>`;
+  c.s.forEach(([x,y],si)=>{const next=!doneC&&c.q[p]===si;const lit=c.q.slice(0,p).includes(si);d+=`<g class="star${next?' next':''}" data-c="${ci}" data-s="${si}" tabindex="0" role="button" aria-label="Star"><circle cx="${x}" cy="${y}" r="16" fill="transparent"/><circle cx="${x}" cy="${y}" r="${lit?9:7}" fill="url(#stG)"/><circle cx="${x}" cy="${y}" r="${lit?3.2:2.4}" fill="${lit?'#ffe9a0':'#fff'}"/></g>`});
+  if(doneC){const xs=c.s.map(s=>+s[0]),ys=c.s.map(s=>+s[1]);d+=`<text x="${f1((Math.min(...xs)+Math.max(...xs))/2)}" y="${f1(Math.max(...ys)+30)}" text-anchor="middle" font-family="IM Fell English, serif" font-style="italic" font-size="18" fill="#ffe9a0">${c.n}</text>`}});
+ $('#sky').innerHTML=d;const n=cprog.filter((p,i)=>p>=CONS[i].q.length).length;$('#skyScore').textContent=`${n} of 3 constellations traced`}
+$('#sky').addEventListener('click',e=>{const g=e.target.closest('.star');if(!g)return;const ci=+g.dataset.c,si=+g.dataset.s;const c=CONS[ci];if(cprog[ci]<c.q.length&&c.q[cprog[ci]]===si){cprog[ci]++;store.set('rd-stars',cprog);sparkle(g,cprog[ci]===c.q.length);renderSky();if(cprog.every((p,i)=>p>=CONS[i].q.length))earnKey('star')}else{g.classList.add('nope');setTimeout(()=>g.classList.remove('nope'),400)}});
+$('#skyReset').onclick=()=>{cprog=[0,0,0];store.set('rd-stars',cprog);renderSky()};
+renderSky();
+function renderCharter(){const c=$('#charter');if(!c)return;const all=LS.keys.length===5;c.innerHTML=all?`<div class="cert"><span class="label">Be it known</span><h2>Keeper of the Labyrinth</h2><p>This charter is given to</p><input id="certName" value="${(store.get('rd-cert','')||'').replace(/"/g,'&quot;')}" placeholder="Write your name" aria-label="Your name"><p>who found all five lore keys under the hill:</p><div class="row" style="justify-content:center">${KEYS.map(k=>keySvg(k.col,true)).join('')}</div><p class="note">Sealed on ${new Date().toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'})}</p></div><div class="row no-print"><button class="btn solid" id="certPrint">Print the charter</button></div>`:`<p>The charter appears only when all five lore keys are in your satchel. You have <b>${LS.keys.length}</b> of 5.</p><div class="row">${KEYS.map(k=>keySvg(k.col,LS.keys.includes(k.id))).join('')}</div>`;
+ const ci=$('#certName');if(ci)ci.oninput=()=>store.set('rd-cert',ci.value);const cp=$('#certPrint');if(cp)cp.onclick=()=>{try{window.print()}catch(e){}}}
+
 /* ================= START ================= */
 buildHero();
 (function heroMagic(){const svg=$('#heroSvg');const layers=[...svg.querySelectorAll('.px')];let tx=0,ty=0,cx=0,cy=0,raf=0;
  const step=()=>{cx+=(tx-cx)*.07;cy+=(ty-cy)*.07;layers.forEach(l=>{const k=+l.dataset.d;l.setAttribute('transform',`translate(${(-cx*8*k).toFixed(2)} ${(-cy*4.5*k).toFixed(2)})`)});raf=Math.abs(tx-cx)+Math.abs(ty-cy)>.003?requestAnimationFrame(step):0};
  if(!reduce&&matchMedia('(pointer:fine)').matches){const hero=$('.hero');hero.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();tx=Math.max(-1.3,Math.min(1.3,((e.clientX-r.left)/r.width-.5)*2));ty=Math.max(-1.3,Math.min(1.3,((e.clientY-r.top)/r.height-.5)*2));if(!raf)raf=requestAnimationFrame(step)});hero.addEventListener('pointerleave',()=>{tx=ty=0;if(!raf)raf=requestAnimationFrame(step)})}
  const door=$('#heroDoor');let busy=false;
- function openDoor(go){if(busy)return;busy=true;svg.classList.add('open');sparkle(door,true);setTimeout(()=>{if(go)show('narration',true);},reduce?0:1250);setTimeout(()=>{svg.classList.remove('open');busy=false},reduce?600:3400)}
+ function openDoor(go){if(busy)return;busy=true;svg.classList.add('open');sparkle(door,true);earnKey('brass');setTimeout(()=>{if(go)window.__go('narration');},reduce?0:1250);setTimeout(()=>{svg.classList.remove('open');busy=false},reduce?600:3400)}
  door.addEventListener('click',()=>openDoor(true));door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDoor(true)}});
- $('#beginBtn').onclick=()=>{const r=svg.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)openDoor(true);else show('narration',true)};
+ $('#beginBtn').onclick=()=>{const r=svg.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)openDoor(true);else window.__go('narration')};
  const root=document.documentElement;const sysDark=matchMedia('(prefers-color-scheme: dark)');
  function applyNight(n,save){svg.classList.toggle('night',n);root.dataset.theme=n?'dark':'light';$('#lampBtn').setAttribute('aria-pressed',String(n));$('#lampTxt').textContent=n?'Open the shutters':'Light the lamp';const fc=$('.hero-art figcaption');if(fc)fc.innerHTML=n?'Plate I &middot; The round door, by lamplight':'Plate I &middot; The round door, at golden hour';if(save)store.set('rd-theme',n?'dark':'light')}
  const saved=store.get('rd-theme',null);applyNight(saved?saved==='dark':sysDark.matches,false);
@@ -1748,6 +1983,7 @@ buildHero();
  document.querySelectorAll('.hero h1 span').forEach((s,i)=>s.style.animationDelay=(i*.12)+'s');
 })();
 const startId=(location.hash||'').slice(1);
+$('#mapBtn').onclick=openMap;$('#satchel').onclick=openSatchel;
 show(sections.some(s=>s.id===startId)?startId:'home',false);
 revealAll();
 /* ================= FIRESIDE AMBIENCE ================= */
