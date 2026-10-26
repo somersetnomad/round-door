@@ -4,7 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="A family read-aloud unit study for The Hobbit: twelve illustrated, interactive subjects.">
+<meta name="theme-color" content="#e9dfc6">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Round Door Hobbit Study</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="alternate icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f3e6c6'/%3E%3Cpath d='M0 64 Q2 20 32 16 Q62 20 64 64Z' fill='%236f9440'/%3E%3Cpath d='M0 64 Q2 20 32 16' fill='none' stroke='%232b2418' stroke-width='1.6' opacity='.5'/%3E%3Ccircle cx='32' cy='45' r='17' fill='%23e2d8c2' stroke='%232b2418' stroke-width='1.2'/%3E%3Ccircle cx='32' cy='45' r='13' fill='%232f5e2a'/%3E%3Cpath d='M26 33v24M32 32v26M38 33v24' stroke='%231c3a18' stroke-width='1.2'/%3E%3Ccircle cx='32' cy='45' r='3.2' fill='%23f2c14e'/%3E%3Ccircle cx='50' cy='38' r='5' fill='%23ffd06a' stroke='%235e3d1f' stroke-width='1.5'/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Alegreya:ital,wght@0,400;0,600;0,700;1,400&family=Alegreya+Sans+SC:wght@500;700&family=Noto+Sans+Runic&display=swap">
@@ -101,8 +104,52 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--honey)}
 .tab[aria-selected="true"]::after{content:"";position:absolute;left:10px;right:10px;bottom:3px;height:7px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M1 5 C20 2 35 6.5 52 4 S82 2.5 99 4.5' stroke='%23a24f26' stroke-width='2.2' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat}
 
 /* panels */
-.panel{display:flex;flex-direction:column;gap:28px;padding-top:18px;animation:fadeUp .5s ease both}
-@keyframes fadeUp{from{transform:translateY(10px);opacity:.3}to{transform:none;opacity:1}}
+.panel{display:flex;flex-direction:column;gap:28px;padding-top:18px;animation:pageIn .75s cubic-bezier(.2,.7,.2,1) both;transform-origin:0 30%}
+@keyframes pageIn{from{opacity:0;transform:perspective(1600px) rotateY(-7deg) translateX(22px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+.rv{opacity:0;transform:translateY(24px)}
+.rv.in{opacity:1;transform:none;transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.banner .art{overflow:hidden}
+.banner .art svg{animation:kb 28s ease-in-out infinite alternate;transform-origin:50% 60%}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07) translate(-1.2%,-.6%)}}
+.hero h1 span{display:inline-block;animation:inkin 1.2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes inkin{from{opacity:0;filter:blur(10px);transform:translateY(16px)}to{opacity:1;filter:none;transform:none}}
+.hero .lede,.hero .row,.hero .label{animation:inkin 1.2s .7s cubic-bezier(.2,.7,.2,1) both}
+.hero-art{animation:plateIn 1.4s .2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes plateIn{from{opacity:0;transform:translateY(20px) rotate(-1.2deg) scale(.97)}to{opacity:1;transform:none}}
+#heroDoor{cursor:pointer;transform-box:fill-box;transform-origin:0% 50%;transition:transform 1.1s cubic-bezier(.6,.05,.25,1),filter .3s}
+#heroDoor:hover,#heroDoor:focus{filter:brightness(1.18)}
+#heroDoor:focus{outline:none}
+.open #heroDoor{transform:scaleX(.07) skewY(-8deg)}
+#heroSpill,#nightDoorGlow{opacity:0;transition:opacity 1s .3s}
+.open #heroSpill{opacity:.95}
+.open #nightDoorGlow{opacity:1}
+#heroNight{opacity:0;transition:opacity 1.6s ease}
+.night #heroNight{opacity:1}
+.birds{animation:birds 26s linear infinite}
+@keyframes birds{from{transform:translateX(-80px)}to{transform:translateX(700px)}}
+.wing{animation:flap .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.5)}}
+.door-hint{font-family:var(--font-display);font-style:italic;color:var(--ink-soft);font-size:1rem}
+#magic{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
+.amb{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--board) var(--grain);color:var(--ink);border-radius:999px;padding:8px 14px 8px 10px;font-family:var(--font-label);font-size:.85rem;letter-spacing:.05em;box-shadow:0 10px 26px -14px rgba(40,28,10,.7);transition:transform .2s,background .3s}
+.amb:hover{transform:translateY(-2px)}
+@media (max-width:620px){.amb span{display:none}.amb{padding:10px}}
+.amb svg{width:22px;height:22px}
+.amb[aria-pressed="true"]{background:#2a1a10;color:#ffd36e;border-color:#6a3a14}
+.amb[aria-pressed="true"] .fl{animation:flame .7s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@property --mr{syntax:'<length>';inherits:true;initial-value:85px}
+.moonmap{position:relative;aspect-ratio:2/1;border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);overflow:hidden;touch-action:none;cursor:none;--mx:-300px;--my:-300px;background:#e9d9b2}
+.moonmap>svg{position:absolute;inset:0;width:100%;height:100%}
+.moonlayer{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(40,60,120,.62),rgba(14,20,52,.85));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;-webkit-mask:radial-gradient(circle var(--mr) at var(--mx) var(--my),#000 40%,transparent 100%);mask:radial-gradient(circle var(--mr) at var(--mx) var(--my),#000 40%,transparent 100%);transition:--mr 1.8s cubic-bezier(.2,.7,.2,1)}
+.moonmap.found .moonlayer{--mr:1400px}
+.moonlayer .mr{font-family:var(--font-rune);font-size:clamp(1.3rem,4.4vw,2.4rem);letter-spacing:.14em;color:#eef4ff;text-shadow:0 0 12px rgba(190,215,255,.95),0 0 30px rgba(140,180,255,.7);line-height:1.5}
+.moonlayer .mt{font-family:var(--font-display);font-style:italic;color:#d8e4ff;font-size:clamp(1rem,2.6vw,1.35rem);opacity:0;transition:opacity 1.2s .8s}
+.moonmap.found .mt{opacity:1}
+.moonlamp{position:absolute;left:var(--mx);top:var(--my);width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;pointer-events:none;box-shadow:0 0 0 1px rgba(220,232,255,.5),0 0 40px 6px rgba(170,200,255,.35),inset 0 0 30px rgba(200,220,255,.25)}
+.moonmap.found .moonlamp{opacity:0;transition:opacity .6s}
+.moonhint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:var(--font-display);font-style:italic;color:#6a5843;pointer-events:none}
+.moonmap.found .moonhint{opacity:0}
+#progressRoute{fill:none;stroke:#e2a93b;stroke-width:6;stroke-linecap:round;opacity:.55}
 .panel-head{display:flex;flex-direction:column;gap:8px;max-width:46em}
 .panel-head p{color:var(--ink-soft)}
 .banner .art svg{display:block;width:100%;height:clamp(150px,25vw,260px)}
@@ -342,9 +389,10 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
   <header class="hero">
     <div class="hero-text">
       <span class="label">A family read-aloud study · 19 chapters · 12 subjects</span>
-      <h1>The Round Door <em>Hobbit Study</em></h1>
+      <h1><span>The</span> <span>Round</span> <span>Door</span> <em><span>Hobbit</span> <span>Study</span></em></h1>
       <p class="lede">Light the lamp, pour the tea, and follow one reluctant homebody all the way to a dragon's mountain and back. Read a chapter together, then wander through the subjects below.</p>
-      <div class="row"><button class="btn solid" data-go="narration">Begin with chapter one</button><button class="btn" data-go="geography">See the journey map</button></div>
+      <div class="row"><button class="btn solid" id="beginBtn">Begin with chapter one</button><button class="btn" data-go="geography">See the journey map</button><button class="btn" id="lampBtn" aria-pressed="false"><span id="lampTxt">Light the lamp</span></button></div>
+      <p class="door-hint">Psst: knock on the round door.</p>
     </div>
     <figure class="plate hero-art"><div class="art"><svg id="heroSvg" viewBox="0 0 600 440" role="img" aria-label="Painted scene of a hillside home at golden hour: a round green door with a brass knob set in a ring of stones, glowing round windows, a smoking chimney, an old tree, lanterns and a flower garden"></svg></div><figcaption>Plate I &middot; The round door, at golden hour</figcaption></figure>
   </header>
@@ -426,7 +474,7 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
         <div class="map-wrap"><svg id="map" viewBox="0 0 800 420" role="img" aria-label="Painted map of Bilbo's journey from Hobbiton in the west to the Lonely Mountain in the east"></svg></div>
         <div class="stop-list" id="stopList" aria-label="Journey stops"></div>
         <div class="stop-info" id="stopInfo" aria-live="polite"></div>
-        <p class="note">Solid line: the road east. Dotted line: Bilbo's quieter road home a year later.</p>
+        <p class="note">Solid line: the road east. Dotted line: Bilbo's quieter road home a year later. Gold trail and flag: how far your family has read (mark chapters on the Home tab).</p>
       </div>
       <div class="board" id="compassQuiz"></div>
     </section>
@@ -529,6 +577,13 @@ footer{margin-top:40px;color:var(--ink-soft);font-size:.9rem;text-align:center}
         <input type="text" id="runeIn" value="There and back again" maxlength="60" aria-label="Text to write in runes">
         <p class="runes-out" id="runeOut" aria-live="polite"></p>
         <div class="rune-key" id="runeKey"></div>
+      </div>
+      <div class="board">
+        <span class="label">Moon-letters</span>
+        <h3>A secret only moonlight shows</h3>
+        <p class="note">Some letters can only be read when moonlight falls on them. Move your lantern of moonlight over this old map (or drag a finger) and hold it over the hidden words.</p>
+        <div class="moonmap" id="moonmap"><svg id="moonBase" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg><div class="moonlayer"><div class="mr" id="moonRunes"></div><div class="mt">"Seek the door where the last light falls."</div></div><div class="moonlamp"></div><p class="moonhint">The map looks empty… but is it?</p></div>
+        <p class="saved" id="moonMsg" aria-live="polite"></p>
       </div>
       <div class="board mapmaker">
         <span class="label">Map maker</span>
@@ -750,7 +805,7 @@ function taper(x,w,h,fill,op){return `<path d="M${f1(x)} 0 L${f1(x+w)} 0 L${f1(x
 const GRADE='.882 .107 .011 0 .025  .032 .957 .011 0 .008  .032 .107 .861 0 -.02  0 0 0 1 0';
 function storyFX(id,disp=4.5){return `<filter id="${id}" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${disp}" xChannelSelector="R" yChannelSelector="G" result="d"/><feColorMatrix in="d" type="matrix" values="${GRADE}" result="c"/><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 .45  0 0 0 0 .35  0 0 0 0 .22  -0.65 0 0 0 .36" result="ga"/><feComposite in="ga" in2="c" operator="in" result="gm"/><feBlend in="gm" in2="c" mode="multiply"/></filter>`}
 function paperDefs(id){return `<filter id="${id}pp" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".011 .018" numOctaves="3" seed="8"/><feColorMatrix values="0 0 0 0 .6  0 0 0 0 .44  0 0 0 0 .26  .75 0 0 0 -.28"/></filter>${rad(id+'pv',[[.55,'#000',0],[1,'#2a1606',.32]],.5,.5,.72)}`}
-function paperOverlay(id,w,h){return `<rect width="${w}" height="${h}" filter="url(#${id}pp)" style="mix-blend-mode:multiply" opacity=".5"/><rect width="${w}" height="${h}" fill="url(#${id}pv)"/>`}
+function paperOverlay(id,w,h){return `<g pointer-events="none"><rect width="${w}" height="${h}" filter="url(#${id}pp)" style="mix-blend-mode:multiply" opacity=".5"/><rect width="${w}" height="${h}" fill="url(#${id}pv)"/></g>`}
 const MAPM={lit:'#d8c398',shade:'#94805c',snow:'#fbf3df',ink:'#3e2f1c'};
 const MAPT={dark:'#55703c',mid:'#7d9450',lite:'#b2bc72',trunk:'#5a4024',ink:'#3a2c18'};
 const MAPTD={dark:'#34502a',mid:'#56703a',lite:'#8a9a5a',trunk:'#4a3420',ink:'#2a2014'};
@@ -780,19 +835,24 @@ function buildHero(){
   <clipPath id="hHillClip"><path d="M-10 440 L-10 360 C40 290 130 215 300 205 C460 198 560 280 610 350 L610 440Z"/></clipPath><clipPath id="hFarClip"><path d="M0 252 C70 214 150 236 240 220 C330 204 430 230 600 208 L600 440 L0 440Z"/></clipPath><clipPath id="hDoorClip"><circle cx="250" cy="335" r="61"/></clipPath>
   </defs>`;
   // sky, sun, rays
-  d+=`<rect width="600" height="440" fill="url(#hSky)"/>
+  d+=`<rect width="600" height="440" fill="url(#hSky)"/><g class="px" data-d=".15">
   <circle cx="118" cy="92" r="190" fill="url(#hSun)"/>
   <circle cx="118" cy="92" r="24" fill="#fffaf0"/>
   <g filter="url(#hB8)" opacity=".8">${[[20,60],[34,75],[48,85],[62,95]].map(([a,b],i)=>`<path d="M118 92 L${f1(118+640*Math.cos(a*Math.PI/180))} ${f1(92+640*Math.sin(a*Math.PI/180))} L${f1(118+640*Math.cos((a+5+i)*Math.PI/180))} ${f1(92+640*Math.sin((a+5+i)*Math.PI/180))}Z" fill="url(#hRay)" opacity="${.35-i*.05}"/>`).join('')}</g>`;
+  d+='</g><g class="px" data-d=".3">';
+  d+=`<g class="birds">${[[0,0],[16,-6],[30,3]].map(([x,y])=>`<g transform="translate(${x} ${70+y})"><path class="wing" d="M-6 0 Q-3 -4 0 0 Q3 -4 6 0" stroke="#3a2c2a" stroke-width="1.6" fill="none"/></g>`).join('')}</g>`;
   // clouds
   const cloud=(x,y,s,o)=>`<g opacity="${o}" filter="url(#hB1)">${blob(x,y,14*s,'#fff9ee')}${blob(x+16*s,y-6*s,18*s,'#fffaf2')}${blob(x+36*s,y,15*s,'#fff6e6')}${blob(x+18*s,y+6*s,16*s,'#f8e5c8')}</g>`;
   d+=`<g class="drift slow">${cloud(300,60,1.3,.85)}${cloud(470,95,.9,.7)}${cloud(220,120,.7,.55)}</g>`;
+  d+='</g><g class="px" data-d=".45">';
   // far hills + far trees
   d+=`<path d="M0 252 C70 214 150 236 240 220 C330 204 430 230 600 208 L600 440 L0 440Z" fill="url(#hFar)" filter="url(#hB1)" opacity=".9"/>`;
   let ft='';for(let i=0;i<34;i++){const x=R()*600,y=232+R()*30;ft+=blob(x,y,3+R()*4,'#869d66')}d+=`<g clip-path="url(#hFarClip)"><g opacity=".7" filter="url(#hB1)">${ft}</g></g>`;
+  d+='</g><g class="px" data-d=".65">';
   d+=`<path d="M0 300 C90 262 200 288 300 272 C420 254 500 282 600 266 L600 440 L0 440Z" fill="url(#hMid)"/>`;
   // hedgerow along mid ridge
   let hr='';for(let i=0;i<70;i++){const x=i*9+R()*4;const y=287-Math.sin(i/9)*8-(x>300?(x-300)*.04:0)-(x<300?(300-x)*.03:0);hr+=blob(x,y,4+R()*3.5,R()>.5?'#5d7c35':'#6f8f40')}d+=`<g>${hr}</g>`;
+  d+='</g><g class="px" data-d="1">';
   // main hill with rim light
   const hill='M-10 440 L-10 360 C40 290 130 215 300 205 C460 198 560 280 610 350 L610 440Z';
   d+=`<path d="${hill}" fill="url(#hMain)"/><path d="${hill}" fill="url(#hRim)"/>`;
@@ -812,6 +872,12 @@ function buildHero(){
   let ring='';const N=22;for(let i=0;i<N;i++){const a=i/N*Math.PI*2;const sin=Math.sin(a);if(sin>.62)continue;const x=250+Math.cos(a)*74,y=335+sin*74;const ang=a*180/Math.PI+90;const w=19+R()*4;ring+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${f1(ang)})"><rect x="${f1(-w/2)}" y="-8" width="${f1(w)}" height="16" rx="5" fill="url(#hStone${R()>.5?'':'D'})"/><rect x="${f1(-w/2+2)}" y="-7" width="${f1(w-4)}" height="4" rx="2" fill="#fff" opacity=".22"/></g>`}d+=ring;
   // door
   d+=`<circle cx="250" cy="335" r="64" fill="#0f1f0c"/>
+  <g id="heroInside" clip-path="url(#hDoorClip)"><circle cx="250" cy="335" r="61" fill="url(#hIn)"/>
+   <circle cx="258" cy="338" r="46" fill="none" stroke="#8a4a1a" stroke-width="3" opacity=".45"/><circle cx="262" cy="340" r="31" fill="none" stroke="#8a4a1a" stroke-width="2.5" opacity=".4"/><circle cx="264" cy="341" r="18" fill="none" stroke="#8a4a1a" stroke-width="2" opacity=".35"/>
+   <path d="M190 372 Q254 350 318 372 L318 400 L190 400Z" fill="#a8602a" opacity=".6"/><path d="M236 378 Q262 370 290 378 L286 388 Q262 384 240 388Z" fill="#a83a22" opacity=".7"/>
+   <circle cx="265" cy="322" r="16" fill="url(#hHalo)"/><rect x="261" y="316" width="8" height="11" rx="2" fill="#fff4c4"/>
+   <rect x="214" y="330" width="14" height="40" rx="3" fill="#6a3a14" opacity=".55"/><circle cx="221" cy="330" r="7" fill="#7a4a1a" opacity=".55"/></g>
+  <g id="heroDoor" role="button" tabindex="0" aria-label="Open the round door and begin chapter one">
   <circle cx="250" cy="335" r="61" fill="url(#hDoor)"/>
   <g clip-path="url(#hDoorClip)">${Array.from({length:10},(_,i)=>{const x=192+i*13;return `<line x1="${x}" y1="270" x2="${x}" y2="400" stroke="#0f240e" stroke-width="2" opacity=".55"/><line x1="${x+2}" y1="270" x2="${x+2}" y2="400" stroke="#8fc77a" stroke-width="1" opacity=".18"/>`}).join('')}
   <circle cx="250" cy="335" r="61" fill="none" stroke="#071206" stroke-width="10" opacity=".45" filter="url(#hB3)"/></g>
@@ -819,9 +885,10 @@ function buildHero(){
   <ellipse cx="252" cy="340" rx="14" ry="5" fill="#000" opacity=".35" filter="url(#hB1)"/>
   <circle cx="250" cy="335" r="11" fill="url(#hKnob)"/>
   <circle cx="246" cy="331" r="3" fill="#fff" opacity=".9"/>
-  <circle cx="250" cy="335" r="11" fill="none" stroke="#5a3a0c" stroke-width="1" opacity=".6"/>`;
+  <circle cx="250" cy="335" r="11" fill="none" stroke="#5a3a0c" stroke-width="1" opacity=".6"/></g>`;
   // doorstep
   d+=`<ellipse cx="252" cy="406" rx="70" ry="12" fill="#2a3a18" opacity=".45" filter="url(#hB3)"/><path d="M188 398 Q250 388 314 398 L310 408 Q250 416 192 408Z" fill="url(#hStone)"/><path d="M190 399 Q250 390 312 399" stroke="#fff" stroke-width="1.5" opacity=".4" fill="none"/>`;
+  d+=`<path id="heroSpill" d="M194 404 L306 404 L380 446 L120 446Z" fill="url(#hSpill)"/>`;
   // windows
   const win=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r*2.8}" fill="url(#hHalo)" class="glow"/>
    <circle cx="${x}" cy="${y}" r="${r+7}" fill="#1d2b10" opacity=".4" filter="url(#hB3)"/>
@@ -841,15 +908,25 @@ function buildHero(){
   // bushes
   const bush=(x,y,s,seed)=>{const r=rng(seed);let b=`<ellipse cx="${x}" cy="${y+4}" rx="${30*s}" ry="${6*s}" fill="#1d2b10" opacity=".4" filter="url(#hB3)"/>`;for(let i=0;i<9;i++){b+=blob(x+(r()-.5)*44*s,y-r()*20*s,(10+r()*8)*s,`url(#hLeaf${r()>.6?2:r()>.4?1:0})`)}return b};
   d+=bush(70,402,1.2,3)+bush(345,406,.9,5)+bush(560,420,1.1,9);
+  d+='</g><g class="px" data-d="1.35">';
+  d+=[[120,392,'#f39a3d'],[430,396,'#b07bd8'],[530,386,'#f2c14e']].map(([x,y,c],i)=>`<g class="bob" style="animation-delay:${-i}s"><path d="M${x} ${y} q-7 -9 -11 -2 q5 7 11 2z M${x} ${y} q7 -9 11 -2 q-5 7 -11 2z" fill="${c}"/><rect x="${x-.8}" y="${y-4}" width="1.6" height="7" rx=".8" fill="#3a2716"/></g>`).join('');
   // garden flowers
   d+=clumps(26,6,33,0,600,390,438,(x,y)=>(x>196&&x<324)||(x>150&&x<192&&y<420));
   // foreground grass
   d+=grass(140,44,-10,610,442,26,'#2f4a1a')+grass(80,45,-10,610,442,16,'#3f6224');
   // fireflies & dust motes in light
   d+=`<g filter="url(#hB1)">${motes(18,9,20,580,330,420,'#fff3a8',1.8)}</g>`;
+  d+='</g>';
+  // night layer
+  const nwin=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r*4.2}" fill="url(#hHalo)" class="glow"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#hWin)"/><g stroke="#3a2210" stroke-width="2.5"><line x1="${x}" y1="${y-r}" x2="${x}" y2="${y+r}"/><line x1="${x-r}" y1="${y}" x2="${x+r}" y2="${y}"/></g>`;
+  d+=`<g id="heroNight" pointer-events="none"><rect width="600" height="440" fill="#18204a" style="mix-blend-mode:multiply" opacity=".84"/><rect width="600" height="300" fill="url(#hNightSky)"/>${stars(70,21,600,210)}
+   <g transform="translate(468 82)"><circle r="70" fill="url(#hMoonGlow)"/><circle r="19" fill="#fbf4dc"/><circle cx="-6" cy="-5" r="4" fill="#e6dcbc"/><circle cx="6" cy="6" r="3" fill="#e6dcbc"/><circle cx="7" cy="-8" r="2" fill="#e6dcbc"/></g>
+   ${nwin(398,318,28)}${nwin(128,326,17)}<circle cx="170" cy="348" r="70" fill="url(#hHalo)" class="glow"/><rect x="162" y="338" width="16" height="20" rx="2" fill="#ffd36e"/><circle cx="170" cy="348" r="3.5" fill="#fff8d0"/>
+   <g id="nightDoorGlow"><circle cx="250" cy="335" r="150" fill="url(#hHalo)"/><circle cx="250" cy="335" r="58" fill="url(#hIn)" opacity=".9"/><path d="M194 404 L306 404 L380 446 L120 446Z" fill="url(#hSpill)"/></g>
+   <g filter="url(#hB1)">${motes(34,77,20,580,250,430,'#e8ff9a',2.2)}</g></g>`;
   // painterly vignette
-  d+=`<rect width="600" height="440" fill="url(#hVig)"/>`;
-  d=d.replace('</defs>',rad('hVig',[[.55,'#000',0],[1,'#2a1a05',.35]],.5,.5,.75)+'</defs>');
+  d+=`<rect width="600" height="440" fill="url(#hVig)" pointer-events="none"/>`;
+  d=d.replace('</defs>',rad('hVig',[[.55,'#000',0],[1,'#2a1a05',.35]],.5,.5,.75)+rad('hIn',[[0,'#fff3c4'],[.45,'#f2b25a'],[1,'#8a4416']],.55,.45,.7)+lin('hSpill',[[0,'#ffd58a',.85],[1,'#ffd58a',0]])+lin('hNightSky',[[0,'#070b26',.9],[1,'#070b26',0]])+rad('hMoonGlow',[[0,'#e8eeff',.55],[1,'#e8eeff',0]])+'</defs>');
   svg.innerHTML=`<defs>${storyFX('hfx',3.5)}${paperDefs('hp')}</defs><g transform="translate(-6 -6) scale(1.02 1.027)"><g filter="url(#hfx)">${d}</g></g>${paperOverlay('hp',600,440)}`;
 }
 
@@ -1214,6 +1291,19 @@ function show(id,scroll){
   if(s.id==='art')sizeCanvas();
 }
 
+
+/* ================= MAGIC ================= */
+const mg=el('canvas',{id:'magic','aria-hidden':'true'});document.body.appendChild(mg);const mgx=mg.getContext('2d');let parts=[],mgRaf=0;
+function mgSize(){mg.width=innerWidth*devicePixelRatio;mg.height=innerHeight*devicePixelRatio}mgSize();addEventListener('resize',mgSize);
+const GOLD=['#ffe38a','#f2c14e','#fff6d0','#e9a43a'];
+function spawn(x,y,n,spd,life,cols,grav){for(let i=0;i<n;i++){const a=Math.random()*6.283,v=spd*(.3+Math.random());parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(grav>0?spd*.5:0),l:life*(.6+Math.random()*.6),t:0,s:.8+Math.random()*2.2,c:cols[Math.floor(Math.random()*cols.length)],g:grav||0,star:Math.random()<.35,r:Math.random()*3})}if(!mgRaf)mgRaf=requestAnimationFrame(mgTick)}
+function mgTick(){const d=devicePixelRatio;mgx.clearRect(0,0,mg.width,mg.height);parts=parts.filter(p=>p.t<p.l);for(const p of parts){p.t++;p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.vx*=.96;p.vy*=.96;p.r+=.05;const a=1-p.t/p.l;mgx.globalAlpha=a;mgx.fillStyle=p.c;mgx.shadowColor=p.c;mgx.shadowBlur=10*d;const X=p.x*d,Y=p.y*d,S=p.s*d;mgx.beginPath();if(p.star){for(let k=0;k<8;k++){const rr=k%2?S*.4:S*2.3,an=k*Math.PI/4+p.r;mgx.lineTo(X+Math.cos(an)*rr,Y+Math.sin(an)*rr)}mgx.closePath()}else mgx.arc(X,Y,S,0,7);mgx.fill()}mgx.globalAlpha=1;mgx.shadowBlur=0;mgRaf=parts.length?requestAnimationFrame(mgTick):0}
+function sparkle(e,big){if(reduce||!e)return;const r=e.getBoundingClientRect();spawn(r.left+r.width/2,r.top+r.height/2,big?46:26,big?4.6:3.2,52,GOLD,.07)}
+if(!reduce&&matchMedia('(pointer:fine)').matches){let last=0;addEventListener('pointermove',e=>{const now=performance.now();if(now-last<30)return;last=now;spawn(e.clientX,e.clientY,1,.45,36,GOLD,-.012)},{passive:true})}
+const io=('IntersectionObserver' in window)&&!reduce?new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{rootMargin:'0px 0px -6% 0px'}):null;
+function revealAll(){if(!io)return;document.querySelectorAll('.board,.banner,.sec-card,.cave,.panel-head').forEach((n,i)=>{if(n.classList.contains('rv'))return;n.classList.add('rv');n.style.transitionDelay=(i%4)*70+'ms';io.observe(n)})}
+let partyHook=()=>{};
+
 /* ================= CHAPTERS ================= */
 const chapters=[
  ['An Unexpected Party','A wizard chooses Bilbo\'s door, and thirteen dwarves arrive one by one for tea. By night\'s end they have shared their plan to win back a treasure stolen by a dragon, and Bilbo has somehow been signed up as their burglar.','Retell the evening from Bilbo\'s point of view, guest by guest.',['How does Bilbo feel about adventures at the start? Which part of him changes his mind?','Why might Gandalf have chosen a quiet hobbit for this job?']],
@@ -1239,7 +1329,7 @@ const chapters=[
 
 let read=store.get('rd-read',[]);
 const pips=$('#pips');
-function renderPips(){pips.innerHTML='';chapters.forEach((c,i)=>{const b=el('button',{class:'pip'+(read.includes(i)?' read':''),title:`Chapter ${i+1}: ${c[0]}`,'aria-pressed':read.includes(i)?'true':'false','aria-label':`Chapter ${i+1}, ${c[0]}`},String(i+1));b.onclick=()=>{read=read.includes(i)?read.filter(x=>x!==i):read.concat(i);store.set('rd-read',read);renderPips()};pips.appendChild(b)});$('#progressText').textContent=`${read.length} of 19`;$('#progressBar').style.width=(read.length/19*100)+'%'}
+function renderPips(){pips.innerHTML='';chapters.forEach((c,i)=>{const b=el('button',{class:'pip'+(read.includes(i)?' read':''),title:`Chapter ${i+1}: ${c[0]}`,'aria-pressed':read.includes(i)?'true':'false','aria-label':`Chapter ${i+1}, ${c[0]}`},String(i+1));b.onclick=()=>{read=read.includes(i)?read.filter(x=>x!==i):read.concat(i);store.set('rd-read',read);if(read.includes(i))sparkle(b,read.length===19);renderPips();partyHook()};pips.appendChild(b)});$('#progressText').textContent=`${read.length} of 19`;$('#progressBar').style.width=(read.length/19*100)+'%'}
 renderPips();
 
 const cs=$('#chapSelect');let curChap=store.get('rd-chap',0);
@@ -1260,7 +1350,7 @@ function quiz(root,{label,title,qs,doneMsg}){
     const q=order[idx];const opts=shuffle(q.o);
     root.innerHTML=`<span class="label">${label}</span><div class="row between"><h3>${title}</h3><span class="score">${idx+1} / ${order.length} · score ${score}</span></div><div class="bar"><i style="width:${idx/order.length*100}%"></i></div><p class="quiz-q">${q.q}</p><div class="opts"></div><p class="feedback" aria-live="polite"></p>`;
     const box=root.querySelector('.opts');
-    opts.forEach(o=>{const b=el('button',{class:'opt'},o);b.onclick=()=>{const ok=o===q.a;if(ok)score++;box.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent===q.a)x.classList.add('right')});if(!ok)b.classList.add('wrong');root.querySelector('.feedback').textContent=(ok?'Yes! ':'Not quite. ')+(q.n||'');const nx=el('button',{class:'btn'},idx+1<order.length?'Next':'See score');nx.onclick=()=>{idx++;render()};root.appendChild(nx);nx.focus({preventScroll:true})};box.appendChild(b)});
+    opts.forEach(o=>{const b=el('button',{class:'opt'},o);b.onclick=()=>{const ok=o===q.a;if(ok){score++;sparkle(b)}box.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent===q.a)x.classList.add('right')});if(!ok)b.classList.add('wrong');root.querySelector('.feedback').textContent=(ok?'Yes! ':'Not quite. ')+(q.n||'');const nx=el('button',{class:'btn'},idx+1<order.length?'Next':'See score');nx.onclick=()=>{idx++;render()};root.appendChild(nx);nx.focus({preventScroll:true})};box.appendChild(b)});
   }
   start();
 }
@@ -1291,12 +1381,13 @@ quiz($('#riddleGame'),{label:'Riddles in the dark',title:'Answer if you can',don
 ]});
 const cave=$('#riddleGame');const addEyes=()=>{if(!cave.querySelector('.eyes'))cave.insertAdjacentHTML('afterbegin','<div class="eyes" aria-hidden="true"><i></i><i></i></div>')};addEyes();
 new MutationObserver(addEyes).observe(cave,{childList:true});
+cave.addEventListener('pointermove',e=>{const ey=cave.querySelector('.eyes');if(!ey)return;const r=ey.getBoundingClientRect();const dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);const k=Math.min(1,Math.hypot(dx,dy)/300);const a=Math.atan2(dy,dx);ey.style.transform=`translate(${(Math.cos(a)*5*k).toFixed(1)}px,${(Math.sin(a)*4*k).toFixed(1)}px)`});
 
 const vocab=[['burglar','Someone hired to creep in quietly and take things'],['parley','A meeting where enemies talk instead of fighting'],['eyrie','An eagle\'s nest high on a rocky ledge'],['larder','A cool cupboard or room for storing food'],['mattock','A heavy digging tool, like a pickaxe'],['tarn','A small, still lake up in the hills'],['hoard','A hidden heap of treasure'],['dale','A wide, open valley']];
 let sel=null,matched=0;
 function buildMatch(){matched=0;sel=null;$('#matchScore').textContent='0 of 8 matched';const W=$('#mWords'),D=$('#mDefs');W.innerHTML='';D.innerHTML='';
   shuffle(vocab).forEach(([w])=>{const b=el('button',{class:'tile word','data-w':w},w);b.onclick=()=>{if(b.classList.contains('done'))return;W.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=w};W.appendChild(b)});
-  shuffle(vocab).forEach(([w,d])=>{const b=el('button',{class:'tile def','data-w':w},d);b.onclick=()=>{if(!sel||b.classList.contains('done'))return;const wb=W.querySelector(`[data-w="${sel}"]`);if(sel===w){b.classList.add('done');wb.classList.add('done');wb.classList.remove('sel');b.disabled=wb.disabled=true;matched++;$('#matchScore').textContent=matched===8?'All 8 matched. Try using three of them in a sentence.':`${matched} of 8 matched`}else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400)}sel=null;W.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'))};D.appendChild(b)})}
+  shuffle(vocab).forEach(([w,d])=>{const b=el('button',{class:'tile def','data-w':w},d);b.onclick=()=>{if(!sel||b.classList.contains('done'))return;const wb=W.querySelector(`[data-w="${sel}"]`);if(sel===w){b.classList.add('done');wb.classList.add('done');wb.classList.remove('sel');b.disabled=wb.disabled=true;matched++;sparkle(b,matched===8);$('#matchScore').textContent=matched===8?'All 8 matched. Try using three of them in a sentence.':`${matched} of 8 matched`}else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400)}sel=null;W.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'))};D.appendChild(b)})}
 $('#matchReset').onclick=buildMatch;buildMatch();
 
 /* ================= MAP ================= */
@@ -1332,7 +1423,7 @@ $('#matchReset').onclick=buildMatch;buildMatch();
   d+=`<g transform="translate(100 380)"><path d="M-70 -18 Q0 -30 70 -18 L70 14 Q0 2 -70 14Z" fill="#f3e3c0" stroke="#8a6a40" stroke-width="1"/><text x="0" y="2" text-anchor="middle" font-family="IM Fell English, serif" font-size="15" fill="#2f2417">There and Back Again</text></g>`;
   d+=`<rect width="800" height="420" filter="url(#mGrain)" fill="#000" opacity=".9"/>`;
   d=`<defs>${storyFX('mfx',2.5)}</defs><g filter="url(#mfx)">`+d+'</g>';
-  d+=`<path id="returnRoute" d=""/><path id="route" d=""/><circle id="lanternDot" r="8" fill="#ffd36e" stroke="#a24f26" stroke-width="2" opacity="0"/><g id="stops"></g>`;
+  d+=`<path id="returnRoute" d=""/><path id="progressRoute" d=""/><path id="route" d=""/><circle id="lanternDot" r="8" fill="#ffd36e" stroke="#a24f26" stroke-width="2" opacity="0"/><g id="stops"></g><g id="party" opacity="0" style="transition:opacity .6s"><circle class="ripple" r="14" fill="none" stroke="#e2a93b" stroke-width="2.5"/><circle class="ripple r2" r="14" fill="none" stroke="#e2a93b" stroke-width="2.5"/><path d="M0 -2 V-30" stroke="#3a2a14" stroke-width="2.2"/><path d="M0 -30 Q10 -28 18 -24 Q10 -20 0 -19Z" fill="#a24f26" stroke="#3a2a14" stroke-width="1"/></g>`;
   svg.innerHTML=d;
 })();
 const stops=[
@@ -1358,6 +1449,11 @@ const sg=$('#stops'),sl=$('#stopList');let curStop=0;
 stops.forEach((s,i)=>{const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','stop');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',s.n);g.innerHTML=`<circle r="18" cx="${s.x}" cy="${s.y}" fill="transparent"/><circle class="dot" r="9" cx="${s.x}" cy="${s.y}"/><text x="${s.x+s.lx}" y="${s.y+s.ly}" text-anchor="middle">${s.n}</text>`;g.onclick=()=>setStop(i);g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setStop(i)}};sg.appendChild(g);const b=el('button',{'aria-pressed':'false'},s.n);b.onclick=()=>setStop(i);sl.appendChild(b)});
 function setStop(i){curStop=i;const s=stops[i];sg.querySelectorAll('.stop').forEach((g,j)=>g.classList.toggle('on',j===i));[...sl.children].forEach((b,j)=>b.setAttribute('aria-pressed',j===i?'true':'false'));const info=$('#stopInfo');info.innerHTML=`<div><span class="label">Chapter ${s.ch}</span><h3>${s.n}</h3><p>${s.what}</p></div><div><span class="label">The real world</span><p>${s.land}</p></div>`;info.classList.remove('flip');void info.offsetWidth;info.classList.add('flip')}
 setStop(0);
+function updateParty(){const maxCh=read.length?Math.max(...read)+1:0;const pr=$('#progressRoute'),pt=$('#party'),rt=$('#route');if(!maxCh){pr.setAttribute('d','');pt.setAttribute('opacity','0');return}
+  let k=0;routeOrder.forEach((si,j)=>{if(parseInt(stops[si].ch)<=maxCh)k=j});const home=maxCh>=19;const st=stops[home?0:routeOrder[k]];
+  pr.setAttribute('d',rt.getAttribute('d'));const L=rt.getTotalLength();let best=L,bd=1e9;if(!home){for(let l=0;l<=L;l+=3){const q=rt.getPointAtLength(l);const dd=Math.hypot(q.x-st.x,q.y-st.y);if(dd<bd-0.01){bd=dd;best=l}}}
+  pr.style.strokeDasharray=`${best} ${L+10}`;pt.setAttribute('transform',`translate(${st.x} ${st.y})`);pt.setAttribute('opacity','1')}
+partyHook=updateParty;updateParty();
 let drawn=false;
 function drawRoute(){if(drawn||reduce)return;drawn=true;const r=$('#route');const L=r.getTotalLength();r.style.strokeDasharray=`${L}`;r.style.strokeDashoffset=`${L}`;r.getBoundingClientRect();r.style.transition='stroke-dashoffset 2.4s ease-in-out';r.style.strokeDashoffset='0';setTimeout(()=>{r.style.transition='';r.style.strokeDasharray='';r.style.strokeDashoffset=''},2600)}
 $('#playJourney').onclick=()=>{const r=$('#route'),L=r.getTotalLength(),lan=$('#lanternDot');
@@ -1460,18 +1556,27 @@ const wps=[
  {q:'Lake-town is 8 miles across the lake. A boat goes 2 miles an hour. How many hours is the crossing?',a:4,n:'8 ÷ 2 = 4 hours.'}
 ];
 let wpDone=store.get('rd-wp',{});
-function renderWP(){const box=$('#wordProblems');box.innerHTML='';wps.forEach((w,i)=>{const row=el('div',{class:'board',style:'padding:14px;gap:8px;box-shadow:none'});row.innerHTML=`<p>${i+1}. ${w.q}</p><div class="row"><input type="number" inputmode="numeric" aria-label="Answer ${i+1}" value="${wpDone[i]!=null?wpDone[i]:''}"><button class="btn small">Check</button><span class="feedback" aria-live="polite"></span></div>`;const inp=row.querySelector('input'),fb=row.querySelector('.feedback');const check=()=>{const v=+inp.value;if(inp.value==='')return;if(v===w.a){fb.textContent='Correct! '+w.n;fb.style.color='var(--good)';wpDone[i]=v}else{fb.textContent='Not yet. Try again.';fb.style.color='var(--bad)';inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');delete wpDone[i]}store.set('rd-wp',wpDone);scoreWP()};row.querySelector('button').onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};if(wpDone[i]===w.a){fb.textContent='Correct! '+w.n;fb.style.color='var(--good)'}box.appendChild(row)});scoreWP()}
+function renderWP(){const box=$('#wordProblems');box.innerHTML='';wps.forEach((w,i)=>{const row=el('div',{class:'board',style:'padding:14px;gap:8px;box-shadow:none'});row.innerHTML=`<p>${i+1}. ${w.q}</p><div class="row"><input type="number" inputmode="numeric" aria-label="Answer ${i+1}" value="${wpDone[i]!=null?wpDone[i]:''}"><button class="btn small">Check</button><span class="feedback" aria-live="polite"></span></div>`;const inp=row.querySelector('input'),fb=row.querySelector('.feedback');const check=()=>{const v=+inp.value;if(inp.value==='')return;if(v===w.a){fb.textContent='Correct! '+w.n;fb.style.color='var(--good)';wpDone[i]=v;sparkle(row.querySelector('button'))}else{fb.textContent='Not yet. Try again.';fb.style.color='var(--bad)';inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');delete wpDone[i]}store.set('rd-wp',wpDone);scoreWP()};row.querySelector('button').onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};if(wpDone[i]===w.a){fb.textContent='Correct! '+w.n;fb.style.color='var(--good)'}box.appendChild(row)});scoreWP()}
 function scoreWP(){const n=wps.filter((w,i)=>wpDone[i]===w.a).length;$('#wpScore').textContent=`${n} of ${wps.length} solved`}
 renderWP();
 const barrelSvg=`<svg viewBox="0 0 70 84" aria-hidden="true"><defs>${lin('brl',[[0,'#5e3a1c'],[.3,'#b07a44'],[.6,'#8a5a2e'],[1,'#4a2c14']],0,0,1,0)}</defs><ellipse cx="35" cy="80" rx="28" ry="4" fill="#000" opacity=".2"/><path d="M10 8 Q2 42 10 76 L60 76 Q68 42 60 8Z" fill="url(#brl)"/><ellipse cx="35" cy="8" rx="25" ry="6" fill="#c48a52"/><ellipse cx="35" cy="8" rx="20" ry="4" fill="#8a5a2e"/><path d="M6 24 Q35 30 64 24 M5 60 Q35 66 65 60" stroke="#3a3a3a" stroke-width="4" fill="none"/></svg>`;
 const lg=$('#logic');[1,2,3].forEach(n=>{lg.insertAdjacentHTML('beforeend',`<div class="barrel">${barrelSvg}<span class="label">Barrel ${n}</span><select aria-label="Who is in barrel ${n}"><option value="">Choose…</option><option>Fili</option><option>Kili</option><option>Bombur</option></select></div>`)});
-$('#logicCheck').onclick=()=>{const v=[...lg.querySelectorAll('select')].map(s=>s.value);const out=$('#logicOut');if(v.some(x=>!x)){out.textContent='Put a dwarf in every barrel first.';return}if(new Set(v).size<3){out.textContent='Each dwarf can only be in one barrel.';return}if(v.join()==='Fili,Kili,Bombur'){out.textContent='Solved! Bombur must be in barrel 3, so Kili is in 2 and Fili in 1.';out.style.color='var(--good)'}else{out.textContent='Not quite. Check each clue one at a time.';out.style.color='var(--bad)'}};
+$('#logicCheck').onclick=()=>{const v=[...lg.querySelectorAll('select')].map(s=>s.value);const out=$('#logicOut');if(v.some(x=>!x)){out.textContent='Put a dwarf in every barrel first.';return}if(new Set(v).size<3){out.textContent='Each dwarf can only be in one barrel.';return}if(v.join()==='Fili,Kili,Bombur'){sparkle($('#logicCheck'),true);out.textContent='Solved! Bombur must be in barrel 3, so Kili is in 2 and Fili in 1.';out.style.color='var(--good)'}else{out.textContent='Not quite. Check each clue one at a time.';out.style.color='var(--bad)'}};
 
 /* ================= ART ================= */
 const runeMap={th:'ᚦ',ng:'ᛝ',ee:'ᛖᛖ',ea:'ᛠ',st:'ᛥ',a:'ᚪ',b:'ᛒ',c:'ᚳ',d:'ᛞ',e:'ᛖ',f:'ᚠ',g:'ᚷ',h:'ᚻ',i:'ᛁ',j:'ᛄ',k:'ᚳ',l:'ᛚ',m:'ᛗ',n:'ᚾ',o:'ᚩ',p:'ᛈ',q:'ᚳᚹ',r:'ᚱ',s:'ᛋ',t:'ᛏ',u:'ᚢ',v:'ᚠ',w:'ᚹ',x:'ᛉ',y:'ᚣ',z:'ᛋ'};
 function toRunes(t){t=t.toLowerCase();let out='';for(let i=0;i<t.length;){const two=t.substr(i,2);if(runeMap[two]&&two.length===2){out+=runeMap[two];i+=2;continue}const c=t[i];if(runeMap[c])out+=runeMap[c];else if(c===' ')out+=' · ';else if(/[0-9]/.test(c))out+=c;i++}return out}
 $('#runeIn').value=store.get('rd-rune','There and back again');
 const updRunes=()=>{$('#runeOut').textContent=toRunes($('#runeIn').value)||' ';store.set('rd-rune',$('#runeIn').value)};$('#runeIn').oninput=updRunes;updRunes();
+(function(){const b=$('#moonBase');let d=`<defs>${storyFX('mbfx',3)}${rad('mbP',[[0,'#f3e6c6'],[.7,'#e6d3a6'],[1,'#c9ad78']],.5,.5,.75)}</defs><g filter="url(#mbfx)"><rect width="800" height="400" fill="url(#mbP)"/>`;
+ d+=mountainSB(560,250,120,150,3,MAPM)+mountainSB(660,262,80,96,4,MAPM)+mountainSB(470,266,70,80,5,MAPM);
+ for(let i=0;i<14;i++){const r=rng(i+9);d+=treeSB(80+r()*240,300+r()*60,30,i+90,MAPT)}
+ d+=`<path d="M60 360 C200 320 300 340 420 300 S560 268 560 250" stroke="#a24f26" stroke-width="2.4" stroke-dasharray="7 6" fill="none"/><path d="M548 236 l12 0 l0 12 l-12 0z" fill="none" stroke="#3e2f1c" stroke-width="1.6"/>`;
+ d+=`<g transform="translate(110 80)" stroke="#6a5843" fill="none"><circle r="34"/><path d="M0 -40 L6 0 L0 40 L-6 0Z" fill="#a24f26" stroke="none"/></g><rect x="8" y="8" width="784" height="384" fill="none" stroke="#8a6a40" stroke-width="2"/></g>`;b.innerHTML=d;
+ $('#moonRunes').textContent=toRunes('Seek the door where the last light falls');
+ const mm=$('#moonmap');let dwell=0,lastT=0;
+ const move=e=>{const r=mm.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;mm.style.setProperty('--mx',x+'px');mm.style.setProperty('--my',y+'px');if(mm.classList.contains('found'))return;const t=$('#moonRunes').getBoundingClientRect();const inside=e.clientX>t.left-40&&e.clientX<t.right+40&&e.clientY>t.top-50&&e.clientY<t.bottom+50;const now=performance.now();if(inside){dwell+=Math.min(80,now-(lastT||now))}lastT=now;if(dwell>1300){mm.classList.add('found');sparkle($('#moonRunes'),true);$('#moonMsg').textContent='You found the moon-letters!'}};
+ mm.addEventListener('pointermove',move);mm.addEventListener('pointerdown',move);mm.addEventListener('pointerleave',()=>{lastT=0;if(!mm.classList.contains('found')){mm.style.setProperty('--mx','-300px');mm.style.setProperty('--my','-300px')}});})();
 $('#runeKey').innerHTML=Object.entries(runeMap).filter(([k])=>!['ee','q','k','v','z'].includes(k)).map(([k,v])=>`<div><b>${v}</b>${k.toUpperCase()}</div>`).join('');
 
 // map maker
@@ -1619,7 +1724,7 @@ $('#cwNext').onclick=()=>{cwI=(cwI+1)%cwLines.length;store.set('rd-cw',cwI);show
 const huntItems=['A stone that could be a troll\'s toe','A feather (an eagle\'s, perhaps?)','Something golden','A leaf with holes nibbled by a hungry creature','A snail shell','A smooth round pebble, like a brass door knob','A stick shaped like a sword','A spider\'s web (look, don\'t touch)','Something that smells sweet, like Beorn\'s flowers','Moss on a north-facing wall','A puddle or pool, a tiny Long Lake','Three different kinds of seed'];
 let hunt=store.get('rd-hunt',[]);
 function renderHunt(){$('#hunt').innerHTML=huntItems.map((s,i)=>`<li class="${hunt.includes(i)?'done':''}"><label><input type="checkbox" ${hunt.includes(i)?'checked':''} data-i="${i}"><span>${s}</span></label></li>`).join('');$('#huntOut').textContent=hunt.length===huntItems.length?'Every treasure found!':`${hunt.length} of ${huntItems.length} found`;$('#huntBar').style.width=hunt.length/huntItems.length*100+'%'}
-$('#hunt').onchange=e=>{const i=+e.target.dataset.i;hunt=e.target.checked?hunt.concat(i):hunt.filter(x=>x!==i);store.set('rd-hunt',hunt);renderHunt()};
+$('#hunt').onchange=e=>{const i=+e.target.dataset.i;if(e.target.checked)sparkle(e.target,hunt.length===huntItems.length-1);hunt=e.target.checked?hunt.concat(i):hunt.filter(x=>x!==i);store.set('rd-hunt',hunt);renderHunt()};
 $('#huntReset').onclick=()=>{hunt=[];store.set('rd-hunt',hunt);renderHunt()};renderHunt();
 const qa=['Walk to the furthest tree you can see','Cross the garden without touching the grass','Find the highest point nearby','Follow a path you have never taken','Track a bird and watch it for five minutes','Build a tiny bridge over a stream or puddle'];
 const qb=['and leave a rune stone there for others to find.','while carrying a "treasure" that must not be dropped.','then draw a map of how you got there.','and come back by a different way.','without speaking a single word.','and tell the tale of it at supper.'];
@@ -1629,8 +1734,30 @@ $('#games').innerHTML=games.map(([h,who,setup,steps])=>`<div class="game"><div c
 
 /* ================= START ================= */
 buildHero();
+(function heroMagic(){const svg=$('#heroSvg');const layers=[...svg.querySelectorAll('.px')];let tx=0,ty=0,cx=0,cy=0,raf=0;
+ const step=()=>{cx+=(tx-cx)*.07;cy+=(ty-cy)*.07;layers.forEach(l=>{const k=+l.dataset.d;l.setAttribute('transform',`translate(${(-cx*8*k).toFixed(2)} ${(-cy*4.5*k).toFixed(2)})`)});raf=Math.abs(tx-cx)+Math.abs(ty-cy)>.003?requestAnimationFrame(step):0};
+ if(!reduce&&matchMedia('(pointer:fine)').matches){const hero=$('.hero');hero.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();tx=Math.max(-1.3,Math.min(1.3,((e.clientX-r.left)/r.width-.5)*2));ty=Math.max(-1.3,Math.min(1.3,((e.clientY-r.top)/r.height-.5)*2));if(!raf)raf=requestAnimationFrame(step)});hero.addEventListener('pointerleave',()=>{tx=ty=0;if(!raf)raf=requestAnimationFrame(step)})}
+ const door=$('#heroDoor');let busy=false;
+ function openDoor(go){if(busy)return;busy=true;svg.classList.add('open');sparkle(door,true);setTimeout(()=>{if(go)show('narration',true);},reduce?0:1250);setTimeout(()=>{svg.classList.remove('open');busy=false},reduce?600:3400)}
+ door.addEventListener('click',()=>openDoor(true));door.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDoor(true)}});
+ $('#beginBtn').onclick=()=>{const r=svg.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)openDoor(true);else show('narration',true)};
+ const root=document.documentElement;const sysDark=matchMedia('(prefers-color-scheme: dark)');
+ function applyNight(n,save){svg.classList.toggle('night',n);root.dataset.theme=n?'dark':'light';$('#lampBtn').setAttribute('aria-pressed',String(n));$('#lampTxt').textContent=n?'Open the shutters':'Light the lamp';const fc=$('.hero-art figcaption');if(fc)fc.innerHTML=n?'Plate I &middot; The round door, by lamplight':'Plate I &middot; The round door, at golden hour';if(save)store.set('rd-theme',n?'dark':'light')}
+ const saved=store.get('rd-theme',null);applyNight(saved?saved==='dark':sysDark.matches,false);
+ $('#lampBtn').onclick=()=>{const n=!svg.classList.contains('night');applyNight(n,true);sparkle($('#lampBtn'))};
+ document.querySelectorAll('.hero h1 span').forEach((s,i)=>s.style.animationDelay=(i*.12)+'s');
+})();
 const startId=(location.hash||'').slice(1);
 show(sections.some(s=>s.id===startId)?startId:'home',false);
+revealAll();
+/* ================= FIRESIDE AMBIENCE ================= */
+const ambBtn=el('button',{class:'amb','aria-pressed':'false',title:'Play a soft fireside crackle'},'<svg viewBox="0 0 24 24" aria-hidden="true"><path class="fl" d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 0 2 1 3 2 3 0-3-1-5 1-8z" fill="#e98a3a"/><path d="M12 12c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1.5 1-2.5 2-3.5 0 1 .5 1.5 1 1.5 0-1.5-.5-2 0-3z" fill="#ffd36e"/></svg><span>Fireside sound</span>');document.body.appendChild(ambBtn);
+let amb=null;
+function startAmb(){const a=actx();if(!a)return null;const len=a.sampleRate*4,buf=a.createBuffer(1,len,a.sampleRate),dd=buf.getChannelData(0);let last=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;last=(last+.02*w)/1.02;dd[i]=last*3.2}
+ const src=a.createBufferSource();src.buffer=buf;src.loop=true;const lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=480;const g=a.createGain();g.gain.setValueAtTime(0,a.currentTime);g.gain.linearRampToValueAtTime(.4,a.currentTime+1.5);src.connect(lp);lp.connect(g);g.connect(a.destination);src.start();
+ let alive=true;const crack=()=>{if(!alive)return;const t=a.currentTime,l2=Math.floor(a.sampleRate*(.006+Math.random()*.03)),b2=a.createBuffer(1,l2,a.sampleRate),c=b2.getChannelData(0);for(let i=0;i<l2;i++)c[i]=(Math.random()*2-1)*Math.pow(1-i/l2,3);const n=a.createBufferSource();n.buffer=b2;const hp=a.createBiquadFilter();hp.type='highpass';hp.frequency.value=900+Math.random()*2600;const gg=a.createGain();gg.gain.value=(.04+Math.random()*.18)*(Math.random()<.12?2.6:1);n.connect(hp);hp.connect(gg);gg.connect(a.destination);n.start(t);setTimeout(crack,30+Math.random()*(Math.random()<.3?650:170))};crack();
+ return{stop(){alive=false;g.gain.linearRampToValueAtTime(0,a.currentTime+.8);setTimeout(()=>{try{src.stop()}catch(e){}},900)}}}
+ambBtn.onclick=()=>{if(amb){amb.stop();amb=null;ambBtn.setAttribute('aria-pressed','false')}else{amb=startAmb();if(amb)ambBtn.setAttribute('aria-pressed','true')}};
 })();
 </script>
 
