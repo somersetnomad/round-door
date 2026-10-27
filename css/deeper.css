@@ -1,0 +1,246 @@
+/* The Round Door Hobbit Study · styles for the deeper study, narrator, soundscape and hidden rooms.
+   Uses the colour tokens defined in index.html (--bg, --board, --ink, --moss, --honey, --rust, --line …). */
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;margin:-1px}
+
+/* ---------- candlelight ---------- */
+:root{--candle:rgba(70,36,8,.20);--candle-core:rgba(255,196,110,.05)}
+:root[data-theme="dark"]{--candle:rgba(0,0,0,.42);--candle-core:rgba(255,170,80,.06)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--candle:rgba(0,0,0,.42);--candle-core:rgba(255,170,80,.06)}}
+#candlelight{position:fixed;inset:0;pointer-events:none;z-index:30;background:radial-gradient(ellipse 120% 95% at 50% 42%,var(--candle-core) 0%,transparent 52%,var(--candle) 100%);animation:candle 5.5s ease-in-out infinite}
+@keyframes candle{0%,100%{opacity:.92}22%{opacity:1}38%{opacity:.84}55%{opacity:.97}71%{opacity:.88}}
+#lanternlight{position:fixed;inset:0;pointer-events:none;z-index:31;opacity:0;transition:opacity .6s;background:radial-gradient(circle 240px at var(--lx,50%) var(--ly,50%),rgba(255,214,140,.10) 0,rgba(255,214,140,.04) 45%,rgba(14,8,2,.38) 100%)}
+body.lantern-on #lanternlight{opacity:1}
+@media (prefers-reduced-motion:reduce){#candlelight{animation:none}}
+@media print{#candlelight,#lanternlight{display:none}}
+
+/* ---------- chapter scroll in every subject room ---------- */
+.ch-scroll{position:relative;display:flex;flex-direction:column;align-items:stretch;filter:drop-shadow(0 18px 24px rgba(40,24,8,.28))}
+.scroll-rod{height:22px;margin:0 -10px;border-radius:11px;position:relative;z-index:2;
+  background:linear-gradient(to bottom,#c48a52 0,#8a5a2e 40%,#5a3418 75%,#3a2010 100%);box-shadow:inset 0 2px 0 rgba(255,230,190,.35),0 3px 6px rgba(30,16,4,.4)}
+.scroll-rod::before,.scroll-rod::after{content:"";position:absolute;top:-5px;width:22px;height:32px;border-radius:9px;background:radial-gradient(circle at 40% 35%,#e2b04f,#a8701a 60%,#5e3d1f);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.scroll-rod::before{left:-14px}.scroll-rod::after{right:-14px}
+.scroll-sheet{margin:-6px 0;padding:clamp(20px,3.4vw,34px) clamp(16px,3.4vw,36px);display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;
+  background:linear-gradient(to right,rgba(120,80,30,.16),transparent 6%,transparent 94%,rgba(120,80,30,.16)),linear-gradient(to bottom,rgba(90,56,20,.18),transparent 5%,transparent 95%,rgba(90,56,20,.18)),#f3e6c4 var(--grain);color:#2f2417;
+  border-left:1px solid rgba(120,84,40,.35);border-right:1px solid rgba(120,84,40,.35)}
+:root[data-theme="dark"] .scroll-sheet{background:linear-gradient(to right,rgba(0,0,0,.25),transparent 6%,transparent 94%,rgba(0,0,0,.25)),#2e2619 var(--grain);color:var(--ink)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .scroll-sheet{background:linear-gradient(to right,rgba(0,0,0,.25),transparent 6%,transparent 94%,rgba(0,0,0,.25)),#2e2619 var(--grain);color:var(--ink)}}
+.scroll-sheet .label{color:var(--rust)}
+.ch-scroll.unroll .scroll-sheet{animation:unroll .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes unroll{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.ch-scroll.unroll .scroll-rod.bottom{animation:rodDrop .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rodDrop{from{transform:translateY(-40px)}to{transform:none}}
+
+.ch-strip{display:flex;gap:5px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin}
+.ch-dot{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:transparent;font-family:var(--font-label);font-size:.86rem;font-variant-numeric:tabular-nums;color:inherit;transition:transform .15s,background .2s}
+.ch-dot:hover{transform:translateY(-2px)}
+.ch-dot.read{border-color:var(--honey);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--honey) 45%,transparent)}
+.ch-dot[aria-pressed="true"]{background:var(--rust);border-color:var(--rust);color:#fbf3df}
+
+.acts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px;counter-reset:a}
+.act label{display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:start;cursor:pointer;padding:12px 14px;border:1px solid color-mix(in srgb,var(--line) 85%,transparent);border-radius:4px;background:color-mix(in srgb,#fffaf0 45%,transparent);transition:background .25s,border-color .25s,transform .2s;height:100%}
+:root[data-theme="dark"] .act label{background:rgba(0,0,0,.18)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .act label{background:rgba(0,0,0,.18)}}
+.act label:hover{border-color:var(--moss);transform:translateY(-2px)}
+.act input{width:20px;height:20px;margin-top:2px;accent-color:var(--moss)}
+.act-n{font-family:var(--font-display);font-size:1.5rem;line-height:1;color:var(--honey);min-width:1ch}
+.act-t{display:flex;flex-direction:column;gap:3px;font-size:.98rem;line-height:1.45}
+.act-t b{font-family:var(--font-display);font-weight:400;font-size:1.16rem;line-height:1.2}
+.act.done label{background:color-mix(in srgb,var(--moss) 13%,transparent);border-color:color-mix(in srgb,var(--moss) 60%,transparent)}
+.act.done .act-t{color:var(--ink-soft)}
+.act.done .act-t b{text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--moss) 70%,transparent)}
+.scroll-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px dashed var(--line);padding-top:12px}
+.small-door{font-size:.82rem}
+.small-door svg{width:16px;height:16px}
+
+/* ---------- Hearth Room additions ---------- */
+#chapDeeper{gap:24px}
+.talk li{font-size:1.04rem}
+details.deeper summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+details.deeper summary::-webkit-details-marker{display:none}
+details.deeper summary .note::before{content:"▸ "}
+details.deeper[open] summary .note::before{content:"▾ "}
+details.deeper[open] summary .note{opacity:.6}
+details.deeper{border-left:4px solid var(--honey)}
+.quests{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}
+.quest-card{position:relative;border:1px solid var(--line);border-radius:4px;padding:18px 16px 14px;display:flex;flex-direction:column;gap:10px;background:color-mix(in srgb,var(--bg) 50%,var(--board))}
+.quest-card h4{font-family:var(--font-display);font-weight:400;font-size:1.3rem;margin:0;padding-right:46px;line-height:1.2}
+.quest-card p{font-size:.97rem}
+.quest-card .seal{position:absolute;right:12px;top:-14px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);color:#fbe9c4;font-size:1.05rem;background:radial-gradient(circle at 38% 34%,#c84a3a,#8a1f16 70%,#5a120c);box-shadow:0 0 0 3px color-mix(in srgb,#8a1f16 40%,transparent),0 4px 8px rgba(0,0,0,.3)}
+.quest-card.complete{border-color:var(--moss);background:color-mix(in srgb,var(--moss) 9%,var(--board))}
+.quest-card.complete .seal{background:radial-gradient(circle at 38% 34%,#f2d36e,#c68a24 70%,#7a5210);color:#3a2410}
+.quest-rooms{gap:6px}
+.q-steps{grid-template-columns:1fr;font-size:.96rem}
+
+/* ---------- Hall: chapter ledger ---------- */
+.ledger-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:color-mix(in srgb,var(--bg) 55%,var(--board))}
+.ledger{border-collapse:separate;border-spacing:3px;min-width:560px;width:100%;font-family:var(--font-label);font-size:.82rem}
+.ledger th{font-weight:500;color:var(--ink-soft);padding:2px}
+.ledger thead th svg{width:22px;height:22px;display:block;margin:0 auto}
+.ledger td{padding:0}
+.ledger .lt{text-align:right;padding-right:6px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lcell{display:block;width:100%;min-width:26px;height:24px;border-radius:3px;border:1px solid color-mix(in srgb,var(--line) 80%,transparent);background:color-mix(in srgb,var(--moss) calc(var(--f) * 100%),transparent);transition:transform .15s,outline-color .15s;cursor:pointer;padding:0}
+.lcell:hover{transform:scale(1.15);outline:2px solid var(--honey)}
+.lrow{width:30px;height:24px;border-radius:12px;border:1.5px solid var(--line);background:transparent;font-family:var(--font-label);font-variant-numeric:tabular-nums;color:var(--ink)}
+tr.is-read .lrow{background:var(--honey);border-color:var(--honey);color:#2f2417}
+
+/* ---------- passages: arched doors at the foot of each room ---------- */
+.passages{display:flex;flex-direction:column;gap:12px;padding:22px 0 6px;border-top:1px solid var(--line);margin-top:4px}
+.arches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.arch{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:22px 10px 14px;border:none;color:#f6e8c8;border-radius:80px 80px 6px 6px;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 18%,rgba(255,206,120,.30),transparent 60%),linear-gradient(to bottom,#4a3420,#2a1c10);box-shadow:inset 0 0 0 4px #8a6a44,inset 0 0 0 6px #3a2814,inset 0 -20px 30px rgba(0,0,0,.35),0 10px 22px -12px rgba(30,16,4,.7);transition:transform .25s,box-shadow .25s}
+.arch::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(0,0,0,.25)}
+.arch:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 4px #c9a060,inset 0 0 0 6px #3a2814,inset 0 -20px 30px rgba(0,0,0,.3),0 0 26px -2px rgba(255,190,90,.55)}
+.arch-icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#f6e3b4,#c9a970);box-shadow:0 0 0 3px #6a4a24;position:relative;z-index:1}
+.arch-icon svg{width:30px;height:30px}
+.arch-name{font-family:var(--font-display);font-size:1.12rem;line-height:1.15;position:relative;z-index:1}
+.arch-sub{font-family:var(--font-label);font-size:.72rem;letter-spacing:.06em;opacity:.75;position:relative;z-index:1}
+.arch.secret{background:radial-gradient(ellipse at 50% 18%,rgba(180,210,255,.22),transparent 60%),linear-gradient(to bottom,#2c3040,#161822)}
+.arch.sealed{filter:saturate(.4);color:#c9bda2}
+.arch.sealed .arch-icon{background:#3a3228;color:#c9b083}
+.passages .btn{align-self:flex-start}
+
+/* ---------- printable chapter plan ---------- */
+#printSheet{display:none}
+@media print{
+  body.printing > *:not(#printSheet){display:none!important}
+  body.printing #printSheet{display:block;font-family:Georgia,serif;color:#000;font-size:11pt;line-height:1.45}
+  #printSheet h1{font-size:20pt;margin:0 0 6pt}
+  #printSheet h2{font-size:13pt;margin:14pt 0 4pt;border-bottom:1px solid #999;padding-bottom:2pt;break-after:avoid}
+  #printSheet h3{font-size:11.5pt;margin:8pt 0 2pt}
+  #printSheet ol{margin:0 0 4pt;padding-left:18pt}
+  #printSheet li{margin:2pt 0;break-inside:avoid}
+  #printSheet .pp-acts{list-style:none;padding-left:0}
+  #printSheet .pp-box{display:inline-block;width:10pt;height:10pt;border:1px solid #333;margin-right:6pt;text-align:center;line-height:10pt;font-size:8pt;vertical-align:-1pt}
+  #printSheet .pp-sum{font-style:italic}
+  #printSheet .pp-foot{margin-top:16pt;font-size:9pt;color:#555}
+  .ch-scroll,.passages,#ledger,#chapDeeper .quest-rooms,.narrator,.amb-dock{display:none!important}
+}
+
+/* ---------- the Lamplighter ---------- */
+.narrator{position:fixed;left:50%;bottom:max(76px,calc(env(safe-area-inset-bottom,0px) + 70px));z-index:45;width:min(580px,calc(100% - 24px));transform:translateX(-50%);display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:12px 12px 12px 14px;
+  background:linear-gradient(to bottom,rgba(255,250,236,.4),transparent),#f3e6c4 var(--grain);color:#2f2417;border:1px solid #b89a66;border-radius:4px;box-shadow:inset 0 0 0 3px #f3e6c4,inset 0 0 0 4px rgba(150,110,60,.45),0 18px 40px -16px rgba(30,16,4,.75)}
+.narrator.in{animation:narIn .55s cubic-bezier(.2,.8,.2,1.1) both}
+.narrator.out{animation:narOut .45s ease both}
+@keyframes narIn{from{opacity:0;transform:translate(-50%,24px) scale(.97)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes narOut{to{opacity:0;transform:translate(-50%,16px)}}
+.nar-lamp svg{width:28px;height:42px;filter:drop-shadow(0 0 8px rgba(255,190,90,.8))}
+.nar-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.nar-body .label{color:#a24f26}
+.nar-body p{font-family:var(--font-display);font-size:1.08rem;line-height:1.4;min-height:1.4em}
+.nar-btns{display:flex;flex-direction:column;gap:4px}
+.nar-b{border:1px solid #c9ab78;background:transparent;color:#6a5843;border-radius:50%;width:32px;height:32px;display:grid;place-items:center;font-size:1.3rem;line-height:1;padding:0}
+.nar-b svg{width:16px;height:16px}
+.nar-b:hover{background:#e9d6a8}
+@media (max-width:620px){.narrator{bottom:max(68px,calc(env(safe-area-inset-bottom,0px) + 62px));grid-template-columns:auto 1fr auto;gap:8px;padding:10px}.nar-body p{font-size:.98rem}.nar-lamp svg{width:22px;height:34px}}
+@media print{.narrator{display:none!important}}
+
+/* ---------- lamp-shelf dock (bottom right) ---------- */
+.amb-dock{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:46;display:flex;gap:8px;align-items:center}
+.amb-dock .amb{position:static}
+.shelf-btn{padding:9px!important}
+.shelf-btn[aria-expanded="true"]{background:#2a1a10;color:#ffd36e;border-color:#6a3a14}
+.shelf-menu{position:absolute;right:0;bottom:calc(100% + 10px);width:min(310px,calc(100vw - 32px));display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:var(--board) var(--grain);border:1px solid var(--line);border-radius:4px;box-shadow:inset 0 0 0 3px var(--board),inset 0 0 0 4px color-mix(in srgb,var(--line) 70%,transparent),0 18px 40px -16px rgba(30,16,4,.75);animation:plateIn .35s cubic-bezier(.2,.7,.2,1) both}
+.shelf-row{display:flex;gap:10px;align-items:center;font-size:.95rem;line-height:1.3;cursor:pointer}
+.shelf-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--moss);flex:0 0 auto}
+.shelf-row.vol{display:grid;grid-template-columns:auto 1fr}
+@media print{.amb-dock{display:none!important}}
+
+/* ---------- hidden rooms ---------- */
+.barrel-row{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:10px}
+.barrel-row .barrel{display:flex;flex-direction:column;align-items:center;gap:6px}
+.barrel-row svg{width:min(70px,100%);height:auto}
+.barrel-row select{width:100%;padding:6px 4px;font-size:.92rem}
+.float-table{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.ft-row{display:grid;grid-template-columns:minmax(0,1.3fr) auto auto;gap:10px;align-items:center;padding:7px 10px;border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.ft-row:nth-child(even){background:color-mix(in srgb,var(--bg) 40%,transparent)}
+.ft-head{border-top:none;font-family:var(--font-label);font-size:.82rem;letter-spacing:.05em;color:var(--ink-soft);background:color-mix(in srgb,var(--line) 30%,transparent)!important}
+.ft-pick{display:flex;gap:4px}
+.ft-pick .pill{padding:3px 9px;font-size:.8rem}
+@media (max-width:560px){.ft-row{grid-template-columns:1fr 1fr;}.ft-row>span:first-child{grid-column:1/-1;font-weight:600}.ft-head>span:first-child{display:none}}
+details.explain summary{cursor:pointer;font-family:var(--font-label);color:var(--moss-deep);letter-spacing:.04em}
+details.explain p{margin-top:8px}
+.vol-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:22px;align-items:center}
+.vol-ctl{display:flex;flex-direction:column;gap:6px}
+.vol-out{display:flex;flex-direction:column;gap:8px;border-left:3px solid var(--honey);padding-left:14px}
+.clap-dots{display:flex;gap:12px;align-items:center;min-height:36px;flex-wrap:wrap}
+.clap-dots i{width:18px;height:18px;border-radius:50%;background:var(--rust);animation:plateIn .3s both}
+.clap-dots i.long{width:46px;border-radius:9px}
+.mono-ctl{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.mono-ctl label{display:flex;flex-direction:column;gap:4px}
+.mono-steps{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:8px}
+.stage-dir{border-left:3px solid var(--rust);padding-left:12px;font-style:italic}
+.ladder{display:flex;flex-direction:column;gap:6px;padding:0 10px;border-left:6px solid #8a5a2e;border-right:6px solid #8a5a2e}
+.rung{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:3px;background:transparent;transition:background .2s}
+.rung b{font-family:var(--font-display);font-weight:400;font-size:1.1rem}
+.rung span{font-size:.88rem;color:var(--ink-soft)}
+.rung[aria-pressed="true"]{background:color-mix(in srgb,var(--honey) 22%,transparent);border-color:var(--honey)}
+.keyholes{display:flex;gap:10px;flex-wrap:wrap}
+.kh{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#4a3c2c,#1a120a);box-shadow:inset 0 3px 8px rgba(0,0,0,.6),0 0 0 3px #8a7a62}
+.kh svg{width:44px;height:22px}
+.kh.on{background:radial-gradient(circle,#6a5434,#2a1c10);box-shadow:inset 0 3px 8px rgba(0,0,0,.5),0 0 0 3px #c9a060,0 0 18px rgba(255,200,110,.45)}
+.keyholes:not(.wide) .kh:not(.on) svg{width:22px;height:22px}
+.atlas{border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);overflow-x:auto;line-height:0}
+.atlas svg{display:block;width:100%;min-width:480px;height:auto}
+.atlas .feat{cursor:pointer}
+.atlas .feat:hover{fill:rgba(226,169,59,.25)}
+.hunt-qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px}
+.hq{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.hq>p{font-size:.98rem}
+.hq>.row,.hq>b{grid-column:2}
+.hq.done{background:color-mix(in srgb,var(--good) 10%,transparent);border-color:color-mix(in srgb,var(--good) 55%,transparent)}
+.hq .pill{font-size:.8rem;padding:3px 9px}
+.rose-wrap{display:grid;grid-template-columns:minmax(0,240px) 1fr;gap:22px;align-items:center}
+.rose{width:100%;max-width:240px}
+.rose .needle{transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
+.rose-opts{display:flex;flex-direction:column;gap:8px}
+.rose-opts .opt small{color:var(--ink-soft)}
+@media (max-width:620px){.rose-wrap{grid-template-columns:1fr;justify-items:center}.rose-opts{justify-self:stretch}}
+.tally-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px}
+.tally-row>div{display:flex;flex-direction:column;gap:2px;border-top:2px solid var(--honey);padding-top:8px}
+.tally-row span{font-size:.9rem;color:var(--ink-soft)}
+.refl{display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+.refl span{font-family:var(--font-display);font-size:1.1rem}
+
+/* ---------- small screens: keep the scroll rods inside the gutter ---------- */
+@media (max-width:620px){.scroll-rod{margin:0 -4px}.scroll-rod::before{left:-6px;width:16px}.scroll-rod::after{right:-6px;width:16px}.acts{grid-template-columns:1fr}}
+#lastlightInner .vbar{grid-template-columns:minmax(110px,160px) 1fr 30px}
+#chapDeeper .two{align-items:start}
+/* hide the scroll rods' knobs as they slide under the sticky passage bar */
+.tabs-shell{margin-inline:-30px;padding-inline:26px}
+@media (max-width:760px){.tabs-shell{margin-inline:-16px;padding-inline:12px}}
+
+/* ---------- the hillside palette: colours taken from photos of real round-door homes ----------
+   grass and moss greens, weathered blue and green doors, a marigold window frame, timber, brick, cream plaster and sky */
+body{background-image:var(--grain),linear-gradient(to bottom,color-mix(in srgb,var(--sky) 50%,var(--bg)) 0,var(--bg) 460px)}
+/* a turf fringe along the top of the passage bar, like grass growing over a doorway */
+.tabs-shell::before{content:"";position:absolute;left:0;right:0;top:-1px;height:10px;pointer-events:none;z-index:1;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'><path d='M0 12 L0 8 Q3 1 5 8 Q8 2 10 8 Q12 0 15 8 Q18 3 20 8 Q22 1 25 8 Q28 2 30 8 Q33 0 35 8 Q37 3 40 8 Q43 1 45 8 Q47 2 50 8 Q53 0 55 8 Q58 3 60 8 Q62 1 65 8 Q68 2 70 8 Q72 0 75 8 Q78 3 80 8 Q82 1 85 8 Q88 2 90 8 Q92 0 95 8 Q98 3 100 8 Q102 1 105 8 Q108 2 110 8 Q113 0 115 8 Q118 3 120 8 L120 12Z' fill='%235f9a2c'/></svg>") repeat-x 0 0/120px 12px;opacity:.85}
+.tabs-shell{position:sticky;border-bottom:3px solid var(--timber)}
+.mapbtn{background:var(--door-green);border-color:var(--door-green)}
+.btn{border-color:var(--moss);color:var(--moss-deep)}
+.btn.solid{background:var(--moss);border-color:var(--moss)}
+.door{border-color:color-mix(in srgb,var(--timber-lite) 55%,var(--line))}
+.door svg{color:var(--door-green)}
+.pip.read,tr.is-read .lrow{background:var(--honey);border-color:var(--honey)}
+.board,.sec-card{box-shadow:inset 0 0 0 5px var(--board),inset 0 0 0 6px color-mix(in srgb,var(--timber-lite) 35%,var(--line)),var(--shadow)}
+.quest-card .seal{background:radial-gradient(circle at 38% 34%,#d06a4a,var(--brick) 65%,#6a2a1a)}
+
+/* the arched passage doors are painted like the round doors on a hillside: blue, green, marigold, red */
+.arch{--door:var(--door-green);background:radial-gradient(ellipse at 50% 22%,rgba(255,236,190,.28),transparent 58%),linear-gradient(to bottom,color-mix(in srgb,var(--door) 88%,#fff),color-mix(in srgb,var(--door) 70%,#000));
+  box-shadow:inset 0 0 0 5px var(--timber-lite),inset 0 0 0 8px var(--timber),inset 0 -22px 30px rgba(0,0,0,.28),0 10px 22px -12px rgba(30,16,4,.7)}
+.arch:nth-child(4n+2){--door:var(--door-blue)}
+.arch:nth-child(4n+3){--door:#c9952e}
+.arch:nth-child(4n+4){--door:#8a3a2a}
+.arch::after{background:rgba(0,0,0,.18);box-shadow:-18px 0 0 rgba(0,0,0,.08),18px 0 0 rgba(0,0,0,.08)}
+.arch:hover{box-shadow:inset 0 0 0 5px #d9b070,inset 0 0 0 8px var(--timber),inset 0 -22px 30px rgba(0,0,0,.22),0 0 26px -2px rgba(255,200,110,.6)}
+.arch.secret{--door:#55606a}
+.arch.sealed{--door:#4a4a44}
+.arch-icon{box-shadow:0 0 0 3px var(--timber)}
+/* timber scroll rods match the beams over the doors */
+.scroll-rod{background:linear-gradient(to bottom,var(--timber-lite) 0,var(--timber) 45%,#3a2414 100%)}
+.ch-dot[aria-pressed="true"]{background:var(--door-green);border-color:var(--door-green)}
+.act input,.q-steps input{accent-color:var(--grass)}
+.lcell{background:color-mix(in srgb,var(--grass) calc(var(--f) * 100%),transparent)}
+#ledger,.ledger-wrap,.atlas{min-width:0;max-width:100%}
+.ledger-wrap{width:100%;position:relative}
